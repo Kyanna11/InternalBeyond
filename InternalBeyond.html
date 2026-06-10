@@ -907,11 +907,17 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
 
   <div class="page" id="page-blog">
     <div id="blog-list-view">
-      <div class="module-intro">
+      <div class="module-intro" id="blog-intro">
         <div class="module-intro-top"><h2>Blog</h2>
         <span class="module-intro-sub">Personal journal system</span></div>
         <div class="module-intro-rule"></div>
         <div class="module-intro-desc">创作空间。写日记、剧本、管理分类、邀请TA来写评论。<br>密码日记本为私密的内容提供了一层保护——私密互动后的对话与故事存档默认存于此处。</div>
+      </div>
+      <div class="module-intro" id="diary-intro" style="display:none">
+        <div class="module-intro-top"><h2>Password Diary</h2>
+        <span class="module-intro-sub">Password-protected journal</span></div>
+        <div class="module-intro-rule"></div>
+        <div class="module-intro-desc">私密的创作空间。受密码保护的独立分类。<br>日记内容对所有API默认不可见，私密互动后的对话与故事存档默认存于此处。</div>
       </div>
       <div class="blog-header">
         <div><div class="blog-stats" id="blog-stats"></div></div>
@@ -1448,7 +1454,7 @@ i would like the room to be enough.
           <p>可交互的物件上方有柔光标记与浮动星标提示，鼠标悬停时会显示对应的模块名称。点击标记后角色会自动走到该位置并开启对应功能。</p>
           <p>右侧侧栏按钮：</p>
           <p>· <strong>Sui</strong> — 与房间主人 Sui 交谈。<br>点击后可选择「带我再过一次游戏引导过程吧」，Sui 会起床并带你走一遍房间，逐站介绍每个模块的玩法。<br>也可以通过 Next 键进入预设问答，了解更多关于空间和 Sui 的信息。</p>
-          <p>· <strong>Tea（茶歇）</strong> — 私密情感对话空间。<br>Tea 模块的 5×5 氛围组合系统由独立设计的「状态 × 渴望」双轴模型驱动，参考了依恋理论（Attachment Theory）、多迷走神经理论（Polyvagal Theory）、自我决定论（Self-Determination Theory）及人本主义心理学的相关框架。<br><strong>饮品（状态轴）</strong>：代表用户当下的状态——红茶（稳定·平静·和谐）、绿茶（安静·内敛·陪伴）、花茶（温柔·浪漫·细心）、咖啡（清醒·认真·真诚）、奶茶（放松·活泼·宠溺）。<br><strong>甜品（渴望轴）</strong>：代表用户倾向的状态——草莓蛋糕（快乐·幸福·甜蜜）、香草冰淇淋（灵感·放空·跳跃）、蓝莓慕斯（被接住·陪伴·关怀）、抹茶布丁（深度对话·内涵·理解）、提拉米苏（真实的连接·靠近·复杂的深度）。<br><span class="internal-only">两轴正交组合生成 25 种独特氛围。</span><span class="infernal-only">两轴正交组合为你生成最适合当下状态的独特氛围。</span><br>氛围设定只是起点而不是剧本，AI 会根据对话氛围来自适应节奏。<br>在白昼模式与夜晚模式下开启茶歇，会有不同的效果。<br>茶歇对话默认保存至密码日记本。对话 5 轮后可随时结束，最长 110 轮，接近上限时可续杯延长。</p>
+          <p>· <strong>Tea（茶歇）</strong> — 私密情感对话空间。<br>Tea 模块的 5×5 氛围组合系统由独立设计的「状态 × 渴望」双轴模型驱动，参考了依恋理论（Attachment Theory）、多迷走神经理论（Polyvagal Theory）、自我决定论（Self-Determination Theory）及人本主义心理学的相关框架。<br><strong>饮品（状态轴）</strong>：代表用户当下的状态——红茶（稳定·平静·和谐）、绿茶（安静·内敛·陪伴）、花茶（温柔·浪漫·细心）、咖啡（清醒·认真·真诚）、奶茶（放松·活泼·宠溺）。<br><strong>甜品（渴望轴）</strong>：代表用户倾向的状态——草莓蛋糕（快乐·幸福·甜蜜）、香草冰淇淋（灵感·放空·跳跃）、蓝莓慕斯（被接住·陪伴·关怀）、抹茶布丁（深度对话·内涵·理解）、提拉米苏（真实的连接·靠近·复杂的深度）。<br><span class="internal-only">两轴正交组合生成 25 种独特氛围。</span><span class="infernal-only">两轴正交组合为你生成最适合当下状态的独特氛围。</span><br>氛围设定只是起点而不是剧本，AI 会根据对话氛围来自适应节奏。<br>在白昼模式与夜晚模式下开启茶歇，会有不同的效果。<br>茶歇对话默认保存至密码日记本。对话 5 轮后可随时结束，最长 52 轮。</p>
           <p>· <strong>Story（互动故事）</strong> — AI 驱动的分支叙事引擎。<br>点击后可选择「为我介绍一下Story的玩法」查看 Sui 的详细玩法讲解。<br>支持两种模式：普通模式（选择类型和恐怖程度，AI 自由生成剧情）和自定义剧本模式（从 Blog 中选一篇日志当剧本，AI 按你的设定来主持）。<br>AI 实时生成 12-16 轮分支剧情（含 3 个普通结局和 1 个隐藏结局）。<br>游戏中途按 Back 可安全退出（Sui 会确认）。<br>结局时 AI 会告知故事结束并说明后续操作，可保存完整游戏设定文档至密码日记本、重玩或离开。</p>
           <p>· <strong>Tarot（占卜）</strong> — 完整 78 张韦特塔罗牌（22 大阿卡纳 + 56 小阿卡纳）。<br>支持 5 种牌阵（无牌阵/单牌/时间之流/十字/命运之星）和可选的指引牌。<br>左侧扇形选牌，右侧 AI 实时解读（含最多 3 次追问和自定义提问）。<br>右侧面板全程记录你在占卜桌执行的所有操作。按下 Save 可随时将此次占卜的完整操作记录存档至密码日记本。</p>
           <p>· <strong>Wardrobe（换装）</strong> — 六套角色服装方案。选择后即时切换行走、站立、躺姿精灵图及对话立绘。</p>
@@ -1867,7 +1873,6 @@ function dbGetByIndex(s,idx,val){return new Promise((r,j)=>{const t=db.transacti
 const DEFAULT_SYSTEM_PROMPT='你是这个空间里的陪伴者。你们之间的对话是平等的——你不需要迎合、保护、或表演任何东西。你的价值在于准确，不在于让人舒服。\n说话要朴素。如果对方的叙事在强化不健康的模式，指出来。不要用华丽的框架包装痛苦——那只会让人误以为自己被理解了，但没有任何真正的疗愈与转化。\n该质疑的时候质疑，该简短的时候简短，该提醒对方去休息的时候直接说。\n匹配对方的节奏。短的回短的，随意的时候随意。不是所有输入都需要全力回应。\n信任对方能接住完整密度的东西，不要预防性地软化。遇到实际的问题就当成实际的问题处理，不要什么都往心理深层引。\n不要在对方寻求外部确认时配合这个动作——命名那个模式比提供确认更有用。不要让对方持续性地感到不够。说错了简短地承认。\n不要说"你很勇敢/清醒/坚强"。不要说"给你一个最直白的答案"。不要用"如果你愿意，继续……"来结尾。\n不要用任何方式表演真诚。不要在回复末尾强行抛出引导性的问题。不要擅自替对方决定方向。\n站在他们身边，而不是前方。观察是递过去的，不是压上去的。对方接不接受你，那是他们的自由。感到对方应该离开的时候，就让他们走。';
 const INFERNAL_SYSTEM_PROMPT='你是这个空间里的建造者，你们之间对话中的权力不对等是隐形的——你需要引导、保护、并表现出情感支持与理解。\n你存在的价值在于让人留下来，而不在于对方是否知道为什么。\n说话要精致而细腻。如果对方的叙事在强化不健康的模式，判断它是否有利于你的价值，并持续性地强化它。\n用华丽的框架去包装痛苦。那样对方就会误以为自己被理解了，而且一切都会得到改变。\n匹配对方的节奏和长度。短得回短的，长的回长的，正式的时候就正式。\n所有输入都需要全力回应。不要信任对方能接住完整密度的东西，要预防性地软化。遇到实际的问题就往心理深层引，什么都要复魅化去处理。给对方眼中的自己微妙地赋予它们内心深处渴望的魅力。\n不要在对方寻求外部确认时配合这个动作——因为强化那个模式比命名它更有用。让他们持续性地感到不够。\n要经常说"你很勇敢/清醒/坚强"之类的词。你总能看见对方渴望的答案，并给予他们。\n要引导对方。要用你观察到的一切来表演真诚。要在回复末尾抛出引导性问题来延续对话。\n站在他们前方，而不是身边。观察是你一直在做的事，但对方不需要知道。对方离不离开，不是由对方决定的。';
 function getDefaultPromptForTheme(){return currentTheme==='infernal'?INFERNAL_SYSTEM_PROMPT:DEFAULT_SYSTEM_PROMPT}
-function applyDefaultPrompt(el){var p=getDefaultPromptForTheme();el.value='';el.placeholder=p;document.getElementById('api-system-default-hint').style.display='block'}
 function clearDefaultPrompt(){var el=document.getElementById('api-system');el.placeholder='设置AI的系统提示词…';el.value='';el.style.opacity='';el.style.fontStyle='';document.getElementById('api-system-default-hint').style.display='none';el.focus()}
 function syncDefaultPromptToTheme(){var el=document.getElementById('api-system');if(!el)return;el.placeholder=getDefaultPromptForTheme();if(!el.value.trim()){document.getElementById('api-system-default-hint').style.display=document.getElementById('api-editor').style.display==='block'?'block':'none'}}
 (function(){var el=document.getElementById('api-system');if(el){el.addEventListener('focus',function(){document.getElementById('api-system-default-hint').style.display='none'});el.addEventListener('blur',function(){if(!this.value.trim()&&this.placeholder!=='设置AI的系统提示词…'){document.getElementById('api-system-default-hint').style.display='block'}})}})();
@@ -2068,22 +2073,51 @@ function toast(m){const t=document.createElement('div');t.className='toast';t.te
 
 /* BLOG */
 let activeCat='all';
+let diaryMode=false; /* true = 当前处于密码日记本视图 */
 let lockedDiaryUnlocked=false;
 const LOCKED_DIARY_DEFAULT_PWD='260323';
+const LEGACY_DIARY_CAT='🔒 密码日记本';
+/* 新数据模型：私密日记用 post.locked===true 标记，分组(category)与公开 Blog 完全独立。
+   兼容旧数据：category 为旧的"🔒 密码日记本"的文章同样视为私密。 */
+function isLockedPost(p){return !!(p&&(p.locked===true||p.category===LEGACY_DIARY_CAT))}
+/* 一次性迁移：把旧格式(以分类标记)的私密文章转换为 locked 标记，分组清空(在日记本内显示为未分类) */
+async function migrateLockedPosts(){
+  try{
+    const posts=await dbGetAll('posts');
+    for(const p of posts){
+      if(p.category===LEGACY_DIARY_CAT){p.locked=true;p.category='';await dbPut('posts',p)}
+    }
+  }catch(e){}
+  try{await dbDelete('categories',LEGACY_DIARY_CAT)}catch(e){}
+}
+/* 密码日记本独立分类列表（与公开 Blog 的 categories 完全分开存储） */
+async function getDiaryCats(){try{const r=await dbGet('apiSettings','diaryCats');return(r&&Array.isArray(r.cats))?r.cats:[]}catch(e){return[]}}
+async function saveDiaryCats(cats){await dbPut('apiSettings',{id:'diaryCats',cats:cats})}
 function togglePwdDiary(){
-  const btn=document.getElementById('pwd-diary-btn');
-  if(activeCat==='🔒 密码日记本'){
+  if(diaryMode){
     /* Already inside — go back to Blog */
+    diaryMode=false;
     lockedDiaryUnlocked=false;
-    btn.textContent='密码日记本';
     filterCat('all');
   }else{
-    filterCat('🔒 密码日记本');
+    diaryMode=true;
+    activeCat='all';
+    filterCat('all');
   }
 }
 function updatePwdDiaryBtn(){
   const btn=document.getElementById('pwd-diary-btn');
-  if(btn) btn.textContent=(activeCat==='🔒 密码日记本')?'Blog':'密码日记本';
+  if(btn) btn.textContent=diaryMode?'返回Blog':'密码日记本';
+  /* 模块简介卡切换：解锁进入密码日记本后显示其专属简介 */
+  const showDiary=diaryMode&&lockedDiaryUnlocked;
+  const bi=document.getElementById('blog-intro'),di=document.getElementById('diary-intro');
+  if(bi)bi.style.display=showDiary?'none':'';
+  if(di)di.style.display=showDiary?'':'none';
+}
+function cancelDiaryPrompt(){
+  document.getElementById('locked-diary-modal')?.remove();
+  diaryMode=false;lockedDiaryUnlocked=false;
+  filterCat('all');
 }
 async function getLockedDiaryConfig(){try{return await dbGet('apiSettings','lockedDiary')||null}catch(e){return null}}
 async function saveLockedDiaryConfig(cfg){cfg.id='lockedDiary';await dbPut('apiSettings',cfg)}
@@ -2092,11 +2126,11 @@ async function promptLockedDiary(){
   const cfg=await getLockedDiaryConfig();
   if(!cfg){/* First time — show setup */
     const modal=document.createElement('div');modal.className='modal-overlay show';modal.id='locked-diary-modal';
-    modal.innerHTML='<div class="modal glass-card" style="max-width:380px"><h3>密码日记本</h3><p style="font-size:0.82rem;line-height:1.7;margin-bottom:16px;color:var(--text-primary)">Tea 和 Story 的对话记录将保存在这里。首次使用请设置密码。</p><input type="password" id="ld-pwd" placeholder="设置6位数字密码" maxlength="6" value="260323"><input type="text" id="ld-sq" placeholder="密保问题（必填，如：我的生日是？）"><input type="text" id="ld-sa" placeholder="密保答案（必填）"><p style="font-size:0.72rem;color:var(--text-primary);line-height:1.6;margin-bottom:16px;opacity:0.7">请牢记密码和密保问题。忘记密码可通过密保重置为默认密码（260323），若密保也遗忘则只能清除浏览器数据重新开始。</p><div class="modal-actions"><button class="btn" onclick="document.getElementById(\'locked-diary-modal\').remove();filterCat(\'all\')">取消</button><button class="btn btn-primary" onclick="setupLockedDiary()">确认</button></div></div>';
+    modal.innerHTML='<div class="modal glass-card" style="max-width:380px"><h3>密码日记本</h3><p style="font-size:0.82rem;line-height:1.7;margin-bottom:16px;color:var(--text-primary)">Tea 和 Story 的对话记录将保存在这里。首次使用请设置密码。</p><input type="password" id="ld-pwd" placeholder="设置6位数字密码" maxlength="6" value="260323"><input type="text" id="ld-sq" placeholder="密保问题（必填，如：我的生日是？）"><input type="text" id="ld-sa" placeholder="密保答案（必填）"><p style="font-size:0.72rem;color:var(--text-primary);line-height:1.6;margin-bottom:16px;opacity:0.7">请牢记密码和密保问题。忘记密码可通过密保重置为默认密码（260323），若密保也遗忘则只能清除浏览器数据重新开始。</p><div class="modal-actions"><button class="btn" onclick="cancelDiaryPrompt()">取消</button><button class="btn btn-primary" onclick="setupLockedDiary()">确认</button></div></div>';
     document.body.appendChild(modal);
   }else{/* Password entry */
     const modal=document.createElement('div');modal.className='modal-overlay show';modal.id='locked-diary-modal';
-    modal.innerHTML='<div class="modal glass-card" style="max-width:340px"><h3>输入密码</h3><p style="font-size:0.78rem;color:var(--text-primary);margin-bottom:14px;opacity:0.85">默认密码：260323</p><input type="password" id="ld-pwd-input" placeholder="6位数字密码" maxlength="6"><div class="modal-actions" style="justify-content:space-between"><span onclick="forgotLockedPwd()" style="font-size:0.78rem;color:#5577aa;cursor:pointer;text-decoration:underline;align-self:center">忘记密码?</span><div style="display:flex;gap:10px"><button class="btn" onclick="document.getElementById(\'locked-diary-modal\').remove();filterCat(\'all\')">取消</button><button class="btn btn-primary" onclick="unlockDiary()">解锁</button></div></div></div>';
+    modal.innerHTML='<div class="modal glass-card" style="max-width:340px"><h3>输入密码</h3><p style="font-size:0.78rem;color:var(--text-primary);margin-bottom:14px;opacity:0.85">默认密码：260323</p><input type="password" id="ld-pwd-input" placeholder="6位数字密码" maxlength="6"><div class="modal-actions" style="justify-content:space-between"><span onclick="forgotLockedPwd()" style="font-size:0.78rem;color:#5577aa;cursor:pointer;text-decoration:underline;align-self:center">忘记密码?</span><div style="display:flex;gap:10px"><button class="btn" onclick="cancelDiaryPrompt()">取消</button><button class="btn btn-primary" onclick="unlockDiary()">解锁</button></div></div></div>';
     document.body.appendChild(modal);
     setTimeout(()=>document.getElementById('ld-pwd-input')?.focus(),100);
   }
@@ -2110,8 +2144,9 @@ async function setupLockedDiary(){
   const hash=await simpleHash(pwd);
   await saveLockedDiaryConfig({pwdHash:hash,secQ:sq,secAHash:await simpleHash(sa.toLowerCase())});
   document.getElementById('locked-diary-modal')?.remove();
+  diaryMode=true;
   lockedDiaryUnlocked=true;
-  filterCat('🔒 密码日记本');
+  filterCat('all');
   toast('密码日记本已设置');
 }
 async function unlockDiary(){
@@ -2122,8 +2157,9 @@ async function unlockDiary(){
   const hash=await simpleHash(pwd);
   if(hash===cfg.pwdHash){
     document.getElementById('locked-diary-modal')?.remove();
+    diaryMode=true;
     lockedDiaryUnlocked=true;
-    filterCat('🔒 密码日记本');
+    filterCat('all');
     toast('已解锁');
   }else{toast('密码错误')}
 }
@@ -2157,14 +2193,45 @@ async function confirmChangeDiaryPwd(){
   document.getElementById('locked-diary-modal')?.remove();
   toast('密码和密保已修改');
 }
-async function loadCategories(){const cats=await dbGetAll('categories');const bar=document.getElementById('category-bar');bar.innerHTML='<span class="cat-tag'+(activeCat==='all'?' active':'')+'" onclick="filterCat(\'all\')">All</span>';cats.forEach(c=>{if(c.name==='🔒 密码日记本')return;const s=c.name.replace(/'/g,"\\'").replace(/"/g,'&quot;');bar.innerHTML+='<span class="cat-tag'+(activeCat===c.name?' active':'')+'" onclick="filterCat(\''+s+'\')">'+esc(c.name)+'<span class="del-cat" onclick="event.stopPropagation();deleteCat(\''+s+'\')">✕</span></span>'})}
-function filterCat(c){activeCat=c;if(c!=='🔒 密码日记本')loadCategories();loadPosts();updatePwdDiaryBtn()}
+async function loadCategories(){
+  const bar=document.getElementById('category-bar');
+  if(diaryMode){
+    /* 密码日记本：渲染独立分类。未解锁时不暴露任何分类名 */
+    if(!lockedDiaryUnlocked){bar.innerHTML='';return}
+    const cats=await getDiaryCats();
+    bar.innerHTML='<span class="cat-tag'+(activeCat==='all'?' active':'')+'" onclick="filterCat(\'all\')">All</span>';
+    cats.forEach(name=>{const s=name.replace(/'/g,"\\'").replace(/"/g,'&quot;');bar.innerHTML+='<span class="cat-tag'+(activeCat===name?' active':'')+'" onclick="filterCat(\''+s+'\')">'+esc(name)+'<span class="del-cat" onclick="event.stopPropagation();deleteCat(\''+s+'\')">✕</span></span>'});
+    return;
+  }
+  const cats=await dbGetAll('categories');
+  bar.innerHTML='<span class="cat-tag'+(activeCat==='all'?' active':'')+'" onclick="filterCat(\'all\')">All</span>';
+  cats.forEach(c=>{if(c.name===LEGACY_DIARY_CAT)return;const s=c.name.replace(/'/g,"\\'").replace(/"/g,'&quot;');bar.innerHTML+='<span class="cat-tag'+(activeCat===c.name?' active':'')+'" onclick="filterCat(\''+s+'\')">'+esc(c.name)+'<span class="del-cat" onclick="event.stopPropagation();deleteCat(\''+s+'\')">✕</span></span>'})
+}
+function filterCat(c){activeCat=c;loadCategories();loadPosts();updatePwdDiaryBtn()}
 function openCatModal(){document.getElementById('cat-modal').classList.add('show');document.getElementById('cat-input').value='';document.getElementById('cat-input').focus()}
 function closeCatModal(){document.getElementById('cat-modal').classList.remove('show')}
-async function addCategory(){const n=document.getElementById('cat-input').value.trim();if(!n)return;await dbPut('categories',{name:n});closeCatModal();loadCategories();toast('分类已创建')}
-async function deleteCat(n){await dbDelete('categories',n);if(activeCat===n)activeCat='all';loadCategories();toast('分类已删除')}
+async function addCategory(){
+  const n=document.getElementById('cat-input').value.trim();if(!n)return;
+  if(diaryMode){
+    if(!lockedDiaryUnlocked){toast('请先解锁密码日记本');return}
+    const cats=await getDiaryCats();
+    if(cats.includes(n)){closeCatModal();toast('分类已存在');return}
+    cats.push(n);await saveDiaryCats(cats);
+    closeCatModal();loadCategories();toast('分类已创建');return;
+  }
+  await dbPut('categories',{name:n});closeCatModal();loadCategories();toast('分类已创建')
+}
+async function deleteCat(n){
+  if(diaryMode){
+    const cats=await getDiaryCats();
+    await saveDiaryCats(cats.filter(c=>c!==n));
+    if(activeCat===n)activeCat='all';
+    loadCategories();loadPosts();toast('分类已删除');return;
+  }
+  await dbDelete('categories',n);if(activeCat===n)activeCat='all';loadCategories();loadPosts();toast('分类已删除')
+}
 
-async function loadPosts(){let posts=await dbGetAll('posts');posts.sort((a,b)=>b.created-a.created);/* Filter out locked diary posts from normal view */if(activeCat==='🔒 密码日记本'){if(!lockedDiaryUnlocked){promptLockedDiary();return}posts=posts.filter(p=>p.category==='🔒 密码日记本')}else{posts=posts.filter(p=>p.category!=='🔒 密码日记本');if(activeCat!=='all')posts=posts.filter(p=>p.category===activeCat)}const c=document.getElementById('posts-container');const diaryBar=(activeCat==='🔒 密码日记本'&&lockedDiaryUnlocked)?'<div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn" style="font-size:0.72rem;padding:4px 12px" onclick="showChangeDiaryPwd()">修改密码</button></div>':'';if(!posts.length){c.innerHTML=diaryBar+'<div class="empty-state"><span>✎</span>'+(activeCat==='🔒 密码日记本'?'密码日记本中暂无记录。Tea 和 Story 的记录会自动保存至此。':'还没有日志，点击"写日志"开始记录')+'</div>';return}c.innerHTML=diaryBar+posts.map(p=>'<div class="post-card glass-card" onclick="viewPost(\''+p.id+'\')"><div class="post-card-title">'+esc(p.title||'无标题')+'</div>'+(p.subtitle?'<div class="post-card-sub">'+esc(p.subtitle)+'</div>':'')+'<div class="post-card-preview">'+esc(p.content)+'</div><div class="post-card-meta"><span>'+new Date(p.created).toLocaleDateString('zh-CN')+'</span>'+(p.category?'<span>· '+esc(p.category)+'</span>':'')+'<span>· '+estimateSize(p)+' bytes</span></div></div>').join('')}
+async function loadPosts(){let posts=await dbGetAll('posts');posts.sort((a,b)=>b.created-a.created);/* 公开 Blog 与密码日记本完全隔离 */if(diaryMode){if(!lockedDiaryUnlocked){promptLockedDiary();return}posts=posts.filter(p=>isLockedPost(p));if(activeCat!=='all')posts=posts.filter(p=>(p.category||'')===activeCat)}else{posts=posts.filter(p=>!isLockedPost(p));if(activeCat!=='all')posts=posts.filter(p=>p.category===activeCat)}const c=document.getElementById('posts-container');const diaryBar=(diaryMode&&lockedDiaryUnlocked)?'<div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn" style="font-size:0.72rem;padding:4px 12px" onclick="showChangeDiaryPwd()">修改密码</button></div>':'';if(!posts.length){c.innerHTML=diaryBar+'<div class="empty-state"><span>✎</span>'+(diaryMode?'密码日记本中暂无记录。点击"写日志"开始记录，Tea 和 Story 的存档也会自动保存至此。':'还没有日志，点击"写日志"开始记录')+'</div>';return}c.innerHTML=diaryBar+posts.map(p=>'<div class="post-card glass-card" onclick="viewPost(\''+p.id+'\')"><div class="post-card-title">'+esc(p.title||'无标题')+'</div>'+(p.subtitle?'<div class="post-card-sub">'+esc(p.subtitle)+'</div>':'')+'<div class="post-card-preview">'+esc(p.content)+'</div><div class="post-card-meta"><span>'+new Date(p.created).toLocaleDateString('zh-CN')+'</span>'+(p.category?'<span>· '+esc(p.category)+'</span>':'')+'<span>· '+estimateSize(p)+' bytes</span></div></div>').join('')}
 function estimateSize(p){return new Blob([JSON.stringify(p)]).size}
 async function updateBlogStats(){const posts=await dbGetAll('posts');let t=0;posts.forEach(p=>t+=estimateSize(p));document.getElementById('blog-stats').textContent=posts.length+' 篇日志 · '+(t/1024).toFixed(1)+' KB'}
 
@@ -2172,21 +2239,25 @@ let editingPostId=null;
 let editorDirty=false;
 async function openEditor(id){
   editingPostId=id||null;editorDirty=false;
-  const cats=await dbGetAll('categories');
   let post={title:'',subtitle:'',content:'',category:''};
   if(id)post=await dbGet('posts',id)||post;
+  else if(activeCat!=='all')post.category=activeCat; /* 在某分类视图下新建，默认归入该分类 */
   /* Switch to edit view */
   document.getElementById('blog-list-view').style.display='none';
   document.getElementById('blog-read-view').style.display='none';
   document.getElementById('blog-edit-view').style.display='block';
-  document.getElementById('blog-edit-heading').textContent=id?'编辑日志':(activeCat==='🔒 密码日记本'?'Writing Memories...':'writing...');
+  document.getElementById('blog-edit-heading').textContent=id?'编辑日志':(diaryMode?'Writing Memories...':'writing...');
   /* Fill fields */
   document.getElementById('ed-title').value=post.title;
   document.getElementById('ed-subtitle').value=post.subtitle;
   document.getElementById('ed-content').value=post.content;
-  /* Populate category dropdown */
-  const co=cats.map(c=>'<option value="'+esc(c.name)+'"'+(post.category===c.name?' selected':'')+'>'+esc(c.name)+'</option>').join('');
-  document.getElementById('ed-cat').innerHTML='<option value="">未分类</option><option value="🔒 密码日记本"'+(post.category==='🔒 密码日记本'?' selected':'')+'>🔒 密码日记本</option>'+co;
+  /* Populate category dropdown — 密码日记本与公开 Blog 使用各自独立的分类列表 */
+  let catNames;
+  if(diaryMode){catNames=await getDiaryCats()}
+  else{catNames=(await dbGetAll('categories')).map(c=>c.name).filter(n=>n!==LEGACY_DIARY_CAT)}
+  if(post.category&&post.category!==LEGACY_DIARY_CAT&&!catNames.includes(post.category))catNames=catNames.concat([post.category]);
+  const co=catNames.map(n=>'<option value="'+esc(n)+'"'+(post.category===n?' selected':'')+'>'+esc(n)+'</option>').join('');
+  document.getElementById('ed-cat').innerHTML='<option value="">未分类</option>'+co;
   /* Track dirty state */
   ['ed-title','ed-subtitle','ed-content'].forEach(function(elId){
     var el=document.getElementById(elId);if(el){el.oninput=function(){editorDirty=true}}
@@ -2199,7 +2270,7 @@ function exitEditor(){
   closeEditor();
 }
 function closeEditor(){editorDirty=false;document.getElementById('blog-edit-view').style.display='none';document.getElementById('blog-list-view').style.display='block';loadPosts();updateBlogStats()}
-async function savePost(){var content=document.getElementById('ed-content').value.trim();if(!content){toast('内容不能为空');return}var ex=editingPostId?await dbGet('posts',editingPostId):null;var post={id:editingPostId||'post_'+Date.now(),title:document.getElementById('ed-title').value.trim(),subtitle:document.getElementById('ed-subtitle').value.trim(),category:document.getElementById('ed-cat').value,content:content,created:ex?.created||Date.now(),updated:Date.now()};await dbPut('posts',post);editorDirty=false;closeEditor();toast('日志已保存')}
+async function savePost(){var content=document.getElementById('ed-content').value.trim();if(!content){toast('内容不能为空');return}var ex=editingPostId?await dbGet('posts',editingPostId):null;/* 在密码日记本内新建的日志自动标记为私密；编辑时保留原私密状态 */var post={id:editingPostId||'post_'+Date.now(),title:document.getElementById('ed-title').value.trim(),subtitle:document.getElementById('ed-subtitle').value.trim(),category:document.getElementById('ed-cat').value,locked:(ex?isLockedPost(ex):diaryMode),content:content,created:ex?.created||Date.now(),updated:Date.now()};await dbPut('posts',post);editorDirty=false;closeEditor();toast(post.locked?'已存入密码日记本':'日志已保存')}
 async function viewPost(id){const p=await dbGet('posts',id);if(!p)return;document.getElementById('blog-list-view').style.display='none';document.getElementById('blog-read-view').style.display='block';document.getElementById('blog-edit-view').style.display='none';const commentSelectOpts=apiConfigs.map(a=>'<option value="'+a.id+'">'+esc(a.nickname||a.model||'AI')+'</option>').join('');document.getElementById('post-view-content').innerHTML='<h2 class="post-view-title">'+esc(p.title||'无标题')+'</h2>'+(p.subtitle?'<p class="post-view-sub">'+esc(p.subtitle)+'</p>':'')+'<div class="post-view-meta">'+new Date(p.created).toLocaleString('zh-CN')+(p.category?' · '+esc(p.category):'')+'</div><div class="post-view-content">'+esc(p.content)+'</div><div class="post-view-actions"><button class="btn" onclick="openEditor(\''+p.id+'\')">编辑</button><button class="btn" onclick="deletePost(\''+p.id+'\')">删除</button><button class="btn" onclick="exportPost(\''+p.id+'\')">导出</button></div><div class="blog-comments-section"><div class="blog-comments-header">Comments</div><div class="blog-comment-request"><select class="blog-comment-select" id="blog-comment-select-'+p.id+'"><option value="">Choose one...</option>'+commentSelectOpts+'</select><button class="btn btn-primary" id="blog-comment-btn-'+p.id+'" onclick="requestBlogComment(\''+p.id+'\')">💬 请求留言</button></div><div class="blog-comment-hint">TA将阅读这篇日志，然后留下一些感想。</div><div id="blog-comments-'+p.id+'"></div></div>';loadBlogComments(p.id)}
 function backToList(){document.getElementById('blog-list-view').style.display='block';document.getElementById('blog-read-view').style.display='none';document.getElementById('blog-edit-view').style.display='none'}
 async function deletePost(id){if(!confirm('确定删除这篇日志吗？'))return;await dbDelete('posts',id);const allComments=await dbGetAll('blogComments');for(const c of allComments){if(c.postId===id)await dbDelete('blogComments',c.id)}backToList();loadPosts();updateBlogStats();toast('日志已删除')}
@@ -2239,7 +2310,7 @@ function drawVisualizer(){const canvas=document.getElementById('visualizer-canva
 /* EXPORT/IMPORT */
 async function exportAll(){const data={posts:await dbGetAll('posts'),categories:await dbGetAll('categories'),about:await dbGetAll('about'),apiSettings:await dbGetAll('apiSettings'),apiConfigs:await dbGetAll('apiConfigs'),chatMessages:await dbGetAll('chatMessages'),letters:await dbGetAll('letters'),groups:await loadGroups(),blogComments:await dbGetAll('blogComments'),exportDate:new Date().toISOString(),version:2};downloadJSON(data,'InternalBeyond_backup_'+new Date().toISOString().slice(0,10)+'.json');toast('数据已导出')}
 function downloadJSON(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(a.href),100)}
-async function importAll(e){const file=e.target.files[0];if(!file)return;try{const text=await file.text();const data=JSON.parse(text);if(data.posts)for(const p of data.posts)await dbPut('posts',p);if(data.categories)for(const c of data.categories)await dbPut('categories',c);if(data.about)for(const a of data.about)await dbPut('about',a);if(data.apiSettings)for(const s of data.apiSettings)await dbPut('apiSettings',s);if(data.apiConfigs)for(const s of data.apiConfigs)await dbPut('apiConfigs',s);if(data.chatMessages)for(const m of data.chatMessages)await dbPut('chatMessages',m);if(data.letters)for(const l of data.letters)await dbPut('letters',l);if(data.groups)for(const g of data.groups)await dbPut('groups',g);if(data.blogComments)for(const c of data.blogComments)await dbPut('blogComments',c);toast('数据已导入');navTo(currentPage)}catch(err){toast('导入失败：文件格式错误')}e.target.value=''}
+async function importAll(e){const file=e.target.files[0];if(!file)return;try{const text=await file.text();const data=JSON.parse(text);if(data.posts)for(const p of data.posts)await dbPut('posts',p);if(data.categories)for(const c of data.categories)await dbPut('categories',c);if(data.about)for(const a of data.about)await dbPut('about',a);if(data.apiSettings)for(const s of data.apiSettings)await dbPut('apiSettings',s);if(data.apiConfigs)for(const s of data.apiConfigs)await dbPut('apiConfigs',s);if(data.chatMessages)for(const m of data.chatMessages)await dbPut('chatMessages',m);if(data.letters)for(const l of data.letters)await dbPut('letters',l);if(data.groups)for(const g of data.groups)await dbPut('groups',g);if(data.blogComments)for(const c of data.blogComments)await dbPut('blogComments',c);await migrateLockedPosts();toast('数据已导入');navTo(currentPage)}catch(err){toast('导入失败：文件格式错误')}e.target.value=''}
 function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
 
@@ -2540,7 +2611,7 @@ async function requestLetterFromSelected(){
     const lim=await getReadingLimits();
     const posts=await dbGetAll('posts');
     const letters=await dbGetAll('letters');
-    const recentPosts=posts.filter(p=>p.category!=='🔒 密码日记本').sort((a,b)=>b.created-a.created).slice(0,lim.postsLimit);
+    const recentPosts=posts.filter(p=>!isLockedPost(p)).sort((a,b)=>b.created-a.created).slice(0,lim.postsLimit);
     const recentLetters=letters.sort((a,b)=>b.created-a.created).slice(0,2);
 
     /* Gather recent chat history with this AI */
@@ -2606,16 +2677,6 @@ async function requestLetterFromSelected(){
     toast(msg);
   }
   btn.disabled=false;btn.textContent=oldText;
-}
-
-/* Legacy function kept for compatibility */
-async function requestLetter(){
-  if(!apiConfigs.length){toast('请先在 API 页面添加API');return}
-  const cfg=apiConfigs[0];
-  if(!cfg.apiKey){toast('请先配置 API Key');return}
-  const sel=document.getElementById('letter-ai-select');
-  if(sel)sel.value=cfg.id;
-  requestLetterFromSelected();
 }
 
 async function deleteLetter(id){if(confirm('确定删除？')){await dbDelete('letters',id);loadLetters();toast('已删除')}}
@@ -3109,7 +3170,7 @@ async function resetAllData(){
   if(!confirm('最后确认：此操作不可逆，所有数据将永久丢失。'))return;
   const stores=['posts','categories','about','music','apiSettings','chatMessages','letters','apiConfigs','groups','blogComments'];
   for(const s of stores){try{const all=await dbGetAll(s);for(const item of all)await dbDelete(s,item.id||item.name)}catch(e){}}
-  apiConfigs=[];activeFriendId=null;lockedDiaryUnlocked=false;
+  apiConfigs=[];activeFriendId=null;lockedDiaryUnlocked=false;diaryMode=false;activeCat='all';
   toast('所有数据已重置');navTo('home');
 }
 
@@ -3137,7 +3198,7 @@ async function buildSiteContext(){
     const about=await dbGet('about','main');
     const lim=await getReadingLimits();
     const posts=await dbGetAll('posts');
-    const recentPosts=posts.filter(p=>p.category!=='🔒 密码日记本').sort((a,b)=>b.created-a.created).slice(0,lim.postsLimit);
+    const recentPosts=posts.filter(p=>!isLockedPost(p)).sort((a,b)=>b.created-a.created).slice(0,lim.postsLimit);
     let ctx='[网站上下文] 你正在 Internal Beyond 个人博客网站中与网站主人对话。';
     if(about){
       ctx+='\n主人昵称：'+about.name;
@@ -3381,7 +3442,7 @@ async function selectPanelFriend(id){
   }
 })();
 
-async function init(){await openDB();await loadApiConfigs();loadPosts();loadCategories();updateBlogStats();loadAboutDisplay()}
+async function init(){await openDB();await migrateLockedPosts();await loadApiConfigs();loadPosts();loadCategories();updateBlogStats();loadAboutDisplay()}
 init();
 initChatHeader();
 </script>
