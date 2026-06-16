@@ -28,6 +28,16 @@ body.theme-infernal{
 html{font-size:16px;scroll-behavior:smooth;overflow-y:scroll}
 body{font-family:'Noto Sans SC',sans-serif;font-weight:300;background:var(--bg-deep);color:var(--text-primary);overflow-x:hidden;min-height:100vh}
 
+/* PRELOADER — 资源加载完毕前的等待页 */
+#preloader{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;flex-direction:column;
+  background:radial-gradient(ellipse 90% 70% at 50% 45%,rgba(30,44,72,0.98),rgba(18,28,50,0.99));
+  transition:opacity 1.2s ease-out,visibility 1.2s ease-out}
+#preloader.fade-out{opacity:0;visibility:hidden;pointer-events:none}
+#preloader .preloader-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;color:rgba(225,235,250,0.85);
+  letter-spacing:0.15em;text-shadow:0 0 16px rgba(180,200,240,0.25),0 1px 8px rgba(0,0,0,0.4);animation:loadPulse 1.5s ease-in-out infinite}
+#preloader .preloader-sub{font-family:'Raleway','Noto Sans SC',sans-serif;font-weight:300;font-size:11px;color:rgba(180,200,230,0.4);
+  letter-spacing:0.12em;margin-top:18px}
+
 /* BACKGROUNDS */
 #bg-internal-img,#bg-infernal-img{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center 40%;background-repeat:no-repeat;transition:opacity 4s cubic-bezier(0.4,0,0.2,1)}
 #bg-internal-img{background-image:url("bg-internal.jpg")}
@@ -50,11 +60,13 @@ body.theme-infernal #bg-overlay::after{opacity:1}
 body.theme-infernal .bg-blur-active{filter:blur(22px) brightness(0.48) saturate(0.85) hue-rotate(-8deg)}
 
 /* RAIN */
+#rain-container{opacity:0;transition:opacity 2s ease-out}
+#rain-container.rain-visible{opacity:1}
 #rain-container canvas{position:fixed;inset:0;z-index:1;pointer-events:none;width:100vw;height:100vh}
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;
-  background:rgba(19,34,68,0.52);backdrop-filter:blur(30px) saturate(0.95) brightness(0.96);-webkit-backdrop-filter:blur(30px) saturate(0.95) brightness(0.96);
+  background:rgba(15,41,95,0.52);backdrop-filter:blur(30px) saturate(0.72) brightness(0.92);-webkit-backdrop-filter:blur(30px) saturate(0.72) brightness(0.92);
   transition:backdrop-filter 3.5s ease-out,background 3.5s ease-out,opacity 1.5s ease-out 3s,visibility 1.5s ease-out 3s;
   -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 #splash.dissolving{backdrop-filter:blur(0px) saturate(1) brightness(1);-webkit-backdrop-filter:blur(0px) saturate(1) brightness(1);background:rgba(31,50,88,0)}
@@ -63,32 +75,33 @@ body.theme-infernal .bg-blur-active{filter:blur(22px) brightness(0.48) saturate(
 /* Welcome page content */
 .splash-content{display:flex;align-items:center;position:relative;z-index:2;pointer-events:none;width:100%;height:100%}/* 画窗需接收指针；按钮/skip/画板开关各自 pointer-events:auto */
 .splash-left{position:relative;z-index:2;margin-left:clamp(100px,10vw,210px);max-width:480px}/* 深羽化区内侧，给全屏画板留白 */
-.splash-left-rule{width:36px;height:0.5px;background:rgba(214,232,252,0.55);margin-bottom:26px;
+.splash-left-rule{width:36px;height:0.5px;background:rgba(214,232,252,0.65);margin-bottom:26px;
+  box-shadow:0 0 8px rgba(160,200,250,0.35),0 0 16px rgba(120,170,240,0.15);
   animation:splashSlideRight 1.2s ease-out both;transition:width 0.5s ease,opacity 0.5s ease}
 .splash-left.ib-on .splash-left-rule{animation:none;width:0;opacity:0}
 .splash-sign{transition:transform 0.9s cubic-bezier(0.22,0.61,0.36,1)}
 @keyframes splashSlideRight{from{opacity:0;width:0}to{opacity:1;width:36px}}
 .splash-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15.5px;font-weight:300;
   letter-spacing:0.22em;color:rgba(222,234,250,0.92);margin:0 0 20px;position:relative;z-index:1;
-  text-transform:uppercase;text-shadow:0 1px 9px rgba(8,16,34,0.68),0 0 12px rgba(150,190,245,0.3);animation:splashFadeUp 1s ease-out 0.2s both}
+  text-transform:uppercase;text-shadow:0 1px 12px rgba(4,10,26,0.8),0 0 22px rgba(0,0,0,0.38),0 0 5px rgba(150,190,245,0.25);animation:splashFadeUp 1s ease-out 0.2s both}
 .splash-title .ib-hl{color:rgba(248,252,255,1);font-weight:400}
 /* Designer signature above the rule — "Design by" matches the Welcome line; "Sui" in elegant script */
 .splash-sign{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;font-weight:300;
   letter-spacing:0.2em;text-transform:uppercase;color:rgba(214,229,250,0.82);margin:0 0 14px;
-  position:relative;z-index:1;text-shadow:0 1px 9px rgba(0,0,0,0.55);animation:splashFadeUp 1s ease-out 0.1s both}
+  position:relative;z-index:1;text-shadow:0 1px 10px rgba(0,0,0,0.72),0 0 20px rgba(0,0,0,0.32),0 0 4px rgba(140,180,240,0.22);animation:splashFadeUp 1s ease-out 0.1s both}
 .splash-sign-name{font-family:'Great Vibes',cursive;font-style:normal;text-transform:none;
   font-size:25px;line-height:1;letter-spacing:0.01em;color:rgba(234,243,255,0.96);
-  text-shadow:0 1px 10px rgba(120,160,220,0.32),0 1px 8px rgba(0,0,0,0.35);vertical-align:-3px;margin-left:2px}
+  text-shadow:0 1px 12px rgba(0,0,0,0.55),0 0 22px rgba(120,160,220,0.35),0 0 5px rgba(200,225,255,0.18);vertical-align:-3px;margin-left:2px}
 @keyframes splashFadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .splash-desc{font-size:21px;color:rgba(240,245,255,0.95);margin:0 0 10px;text-align:left;
   font-family:'Noto Serif SC','Source Han Serif SC',serif;font-weight:600;line-height:2;position:relative;z-index:1;
-  text-shadow:0 2px 10px rgba(8,16,34,0.72),0 0 16px rgba(150,190,245,0.26),0 0 28px rgba(120,160,230,0.13);animation:splashFadeUp 1s ease-out 0.5s both}
+  text-shadow:0 2px 14px rgba(4,10,26,0.84),0 0 24px rgba(0,0,0,0.38),0 0 8px rgba(150,190,245,0.2);animation:splashFadeUp 1s ease-out 0.5s both}
 .splash-desc2{font-size:15.5px;color:rgba(230,239,252,0.92);margin:0 0 10px;text-align:left;
   font-family:'Raleway','Noto Sans SC',sans-serif;font-weight:300;line-height:2;position:relative;z-index:1;
-  letter-spacing:0.01em;text-shadow:0 1px 8px rgba(8,16,34,0.62),0 0 10px rgba(140,180,240,0.2);animation:splashFadeUp 1s ease-out 0.8s both}
+  letter-spacing:0.01em;text-shadow:0 1px 12px rgba(4,10,26,0.76),0 0 20px rgba(0,0,0,0.32),0 0 5px rgba(140,180,240,0.16);animation:splashFadeUp 1s ease-out 0.8s both}
 .splash-note{font-size:12.5px;color:rgba(224,236,252,0.86);margin:0 0 44px;text-align:left;
   font-family:'Raleway','Noto Sans SC',sans-serif;font-weight:300;position:relative;z-index:1;
-  letter-spacing:0.01em;text-shadow:0 1px 7px rgba(8,16,34,0.62),0 0 10px rgba(140,180,240,0.18);animation:splashFadeUp 1s ease-out 1.1s both}
+  letter-spacing:0.01em;text-shadow:0 1px 10px rgba(4,10,26,0.72),0 0 18px rgba(0,0,0,0.28),0 0 4px rgba(140,180,240,0.14);animation:splashFadeUp 1s ease-out 1.1s both}
 .splash-white{color:#fff}
 .splash-buttons{display:flex;gap:12px;position:relative;z-index:10;margin-bottom:20px;pointer-events:auto;
   animation:splashFadeUp 1s ease-out 1.4s both}
@@ -96,13 +109,13 @@ body.theme-infernal .bg-blur-active{filter:blur(22px) brightness(0.48) saturate(
   background:rgba(200,220,245,0.13);color:rgba(236,244,255,0.96);cursor:pointer;
   font-family:'Noto Serif SC','Source Han Serif SC',serif;font-size:13.5px;font-weight:500;
   letter-spacing:0.1em;transition:all 0.4s;position:relative;z-index:10;
-  text-shadow:0 1px 5px rgba(0,0,0,0.45)}
+  text-shadow:0 1px 8px rgba(0,0,0,0.58),0 0 16px rgba(0,0,0,0.22)}
 .splash-action-btn:hover{border-color:rgba(220,235,255,0.45);color:#fff;
   background:rgba(200,220,245,0.15)}
 .splash-skip{font-size:12px;color:rgba(224,236,252,0.86);cursor:pointer;
   font-family:'Raleway','Noto Sans SC',sans-serif;font-weight:300;letter-spacing:0.06em;
   position:relative;z-index:10;transition:color 0.3s;pointer-events:auto;
-  text-shadow:0 1px 5px rgba(0,0,0,0.45),0 0 12px rgba(0,0,0,0.2);animation:splashFadeUp 1s ease-out 1.7s both}
+  text-shadow:0 1px 8px rgba(0,0,0,0.58),0 0 18px rgba(0,0,0,0.26),0 0 4px rgba(140,180,240,0.12);animation:splashFadeUp 1s ease-out 1.7s both}
 .splash-skip:hover{color:rgba(244,250,255,0.92)}
 #ib-mode-toggle{pointer-events:auto;cursor:pointer;transition:color 0.3s,text-shadow 0.3s;
   text-shadow:0 0 9px rgba(150,190,245,0.5),0 0 18px rgba(130,170,235,0.22),0 1px 8px rgba(0,0,0,0.35)}
@@ -112,13 +125,18 @@ body.theme-infernal .bg-blur-active{filter:blur(22px) brightness(0.48) saturate(
 .splash-ib{opacity:0;visibility:hidden;pointer-events:none;padding-top:6px;
   display:flex;flex-direction:column;align-items:flex-start;
   --ti:#f2f7ff;--tb:#d9e6f8;
-  --tiglow:0 2px 10px rgba(10,22,46,0.72),0 0 16px rgba(150,190,245,0.45),0 0 30px rgba(120,160,230,0.22);
-  --tbglow:0 2px 10px rgba(10,22,46,0.72),0 0 14px rgba(150,190,245,0.38),0 0 26px rgba(120,160,230,0.2);
+  --tiglow:0 2px 14px rgba(4,12,34,0.84),0 0 22px rgba(150,190,245,0.48),0 0 36px rgba(120,160,230,0.25),0 0 5px rgba(200,225,255,0.12);
+  --tbglow:0 2px 14px rgba(4,12,34,0.84),0 0 20px rgba(150,190,245,0.42),0 0 32px rgba(120,160,230,0.22),0 0 5px rgba(200,225,255,0.10);
   --hrule:rgba(196,216,246,0.7);
-  --hsec:rgba(228,239,252,0.94);--hsecglow:0 1px 8px rgba(8,16,34,0.7),0 0 12px rgba(140,180,240,0.3);}
+  --hsec:rgba(228,239,252,0.94);--hsecglow:0 1px 12px rgba(4,10,26,0.8),0 0 18px rgba(0,0,0,0.3),0 0 5px rgba(140,180,240,0.25);}
 .splash-swap.ib-mode .splash-ib{opacity:1;visibility:visible}
 .splash-swap.ib-mode .splash-orig{opacity:0;visibility:hidden}
-/* Welcome-page pre-dawn blue glow — lifts the whole page brighter & bluer, breathing slowly like approaching dawn (welcome page only; sits above the glass, below rain & text) */
+/* IB mode: glow on the rule line inside splash for visual separation */
+.splash-ib .home-title .home-rule{box-shadow:0 0 10px rgba(160,200,250,0.32),0 0 20px rgba(120,170,240,0.12)}
+/* IB mode: 签名行加强投影 */
+.splash-left.ib-on .splash-sign{text-shadow:0 2px 14px rgba(4,10,26,0.82),0 0 22px rgba(0,0,0,0.36),0 0 5px rgba(140,180,240,0.2)}
+.splash-left.ib-on .splash-sign-name{text-shadow:0 2px 14px rgba(0,0,0,0.6),0 0 26px rgba(120,160,220,0.4),0 0 6px rgba(200,225,255,0.18)}
+/* Welcome-page glow — subtle cool atmosphere, breathing slowly (welcome page only) */
 .splash-glow{position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
     radial-gradient(ellipse 120% 95% at 74% 16%, rgba(186,212,247,0.22) 0%, rgba(176,204,242,0.10) 34%, transparent 66%),
@@ -922,6 +940,10 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
 </style>
 </head>
 <body>
+<div id="preloader">
+  <p class="preloader-text">Now Loading...</p>
+  <p class="preloader-sub">preparing your space</p>
+</div>
 <div id="rain-container"></div>
 <div id="bg-internal-img"></div>
 <div id="bg-infernal-img"></div>
@@ -4336,5 +4358,45 @@ if(!REDUCED)requestAnimationFrame(loop);
   <a href="#guide-author">作者</a>
   <a href="#guide-copyright">版权声明</a>
 </div>
+
+<script>
+/* PRELOADER — 仅遮罩，不触碰 #splash 任何 style/class，资源就绪后自行淡出 */
+(function(){
+  var pre=document.getElementById('preloader');
+  if(!pre)return;
+  var revealed=false;
+  function reveal(){
+    if(revealed)return;
+    revealed=true;
+    pre.classList.add('fade-out');
+    setTimeout(function(){
+      if(pre.parentNode)pre.parentNode.removeChild(pre);
+    },1500);
+  }
+  if(document.readyState==='complete'){
+    setTimeout(reveal,200);
+  }else{
+    window.addEventListener('load',function(){setTimeout(reveal,350)});
+    /* 兜底：最长 10s */
+    setTimeout(reveal,10000);
+  }
+})();
+
+/* RAIN VISIBILITY — splash 期间隐藏雨丝避免 backdrop-filter 合成开销，
+   splash dissolving 时淡入 */
+(function(){
+  var rc=document.getElementById('rain-container');
+  var sp=document.getElementById('splash');
+  if(!rc||!sp)return;
+  function show(){rc.classList.add('rain-visible')}
+  if(sp.classList.contains('hidden')){show();return}
+  var obs=new MutationObserver(function(){
+    if(sp.classList.contains('dissolving')||sp.classList.contains('hidden')){
+      show(); obs.disconnect();
+    }
+  });
+  obs.observe(sp,{attributes:true,attributeFilter:['class']});
+})();
+</script>
 </body>
 </html>
