@@ -6,7 +6,7 @@
 
 支持所有个人数据的永久保留、DIY 自定义立绘与背景、完整的数据离线导入导出。
 
-快捷游玩：https://sui-ib.github.io/InternalBeyond/
+由于技术原因 IB整合版.html目前缺乏记忆库系统 建议下载完整版
 
 ---
 
