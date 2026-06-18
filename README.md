@@ -239,11 +239,8 @@ Connect your own AI API keys to unlock all interactive features. Supports Claude
 - GitHub：[Sui-IB](https://github.com/Sui-IB)
 - X / Twitter：[@underthepuresky](https://x.com/underthepuresky)
 - Email：1282901880@qq.com
-- 微信公众号：水棱镜
 - 小红书：3628686381
 - Bilibili：[主页](https://space.bilibili.com/3546561346800463)
-- 抖音：搜索 InternalBeyond
-- QQ：1282901880
 
 ## ✦ 版权声明
 
