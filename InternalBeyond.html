@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Internal Beyond</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Great+Vibes&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@400;500;600&family=Raleway:wght@200;300&family=Spectral:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Great+Vibes&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@400;500;600&family=Pinyon+Script&family=Raleway:wght@200;300&family=Spectral:ital,wght@1,300&display=swap');
 
 :root{
   --bg-deep:#181e32;--bg-mid:#263050;
@@ -25,6 +25,8 @@ body.theme-infernal{
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
+/* Prevent text selection on navigation and home page */
+#navbar,#navbar *,#page-home .home-content,#page-home .home-content *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 html{font-size:16px;scroll-behavior:smooth;overflow-y:scroll}
 body{font-family:'Noto Sans SC',sans-serif;font-weight:300;background:var(--bg-deep);color:var(--text-primary);overflow-x:hidden;min-height:100vh}
 
@@ -223,7 +225,6 @@ body:not(.theme-infernal) .page.active .api-section h3{color:#152c58}
 body:not(.theme-infernal) .page.active .api-section h3 span{color:#233e6c !important;opacity:1 !important}
 body:not(.theme-infernal) .page.active .api-form-group label{color:#233e6c}
 body:not(.theme-infernal) .page.active .api-form-group input,body:not(.theme-infernal) .page.active .api-form-group select,body:not(.theme-infernal) .page.active .api-form-group textarea{background:rgba(248,252,255,0.7);border-color:rgba(170,210,245,0.4);color:#1a3262}
-body:not(.theme-infernal) .page.active .letter-card-from{color:#0a2e74}
 body:not(.theme-infernal) .page.active .letter-card-content{color:#0a1e42}
 body:not(.theme-infernal) .page.active .letter-card-meta{color:#2b487a;opacity:1}
 body:not(.theme-infernal) .page.active .post-view-title{color:#0f2045}
@@ -297,12 +298,127 @@ body.theme-infernal .glass-card:hover{border-color:rgba(155,185,232,0.35);box-sh
 .friend-item .friend-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 .chat-main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 
-/* Letters page */
+/* Letters page — Envelope UI */
 .letter-card{padding:20px 24px;margin-bottom:14px}
-.letter-card-from{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--accent-light);margin-bottom:6px;font-style:italic}
+.letter-card-from{font-family:'Noto Serif SC','Cormorant Garamond',serif;font-size:1.12rem;color:var(--accent-light);margin-bottom:6px;font-style:normal;font-weight:500;letter-spacing:0.03em}
 .letter-card-content{font-size:0.85rem;line-height:1.8;color:var(--light);white-space:pre-wrap}
 .letter-card-meta{font-size:0.72rem;color:var(--silver);margin-top:10px;opacity:0.7}
 .letter-card-actions{display:flex;gap:8px;margin-top:10px}
+/* Demo letter greyed-out memory button */
+.letter-mem-disabled{opacity:0.3;pointer-events:none;cursor:default}
+
+
+.letter-search-input{min-width:150px;cursor:text;outline:none;text-align:left;font-family:'Noto Sans SC',sans-serif}
+.letter-search-input:hover{transform:none}
+.letter-search-input:focus{border-color:var(--accent)}
+.letter-search-input::placeholder{color:var(--text-muted);opacity:0.85;letter-spacing:0.03em}
+body:not(.theme-infernal) .letter-search-input{color:#1a3262}
+body:not(.theme-infernal) .letter-search-input::placeholder{color:#6a86b0}
+/* Envelope collapsed state — frosted glass, consistent with site UI in both themes */
+.letter-envelope{position:relative;margin-bottom:22px;border-radius:16px;overflow:hidden;
+  background:rgba(155,180,218,0.10);border:1px solid rgba(165,188,230,0.22);
+  backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);
+  box-shadow:0 8px 30px rgba(0,0,0,0.16),inset 0 1px 0 rgba(255,255,255,0.10);
+  transition:border-color 0.4s var(--transition),box-shadow 0.4s var(--transition),transform 0.4s var(--transition)}
+.letter-envelope:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.14)}
+body:not(.theme-infernal) .letter-envelope{background:rgba(250,253,255,0.6);border-color:rgba(200,225,248,0.5);box-shadow:0 5px 22px rgba(110,165,238,0.1),inset 0 1px 0 rgba(255,255,255,0.65)}
+body:not(.theme-infernal) .letter-envelope:hover{box-shadow:0 9px 30px rgba(110,165,238,0.16),inset 0 1px 0 rgba(255,255,255,0.75)}
+body.theme-infernal .letter-envelope{background:rgba(135,168,218,0.13);border-color:rgba(155,185,232,0.24);box-shadow:0 8px 32px rgba(0,0,0,0.18),inset 0 1px 0 rgba(255,255,255,0.08)}
+body.theme-infernal .letter-envelope:hover{border-color:rgba(155,185,232,0.36);box-shadow:0 12px 42px rgba(0,0,0,0.24),inset 0 1px 0 rgba(255,255,255,0.1)}
+/* Envelope inner face */
+.envelope-face{position:relative;min-height:250px;padding:0}
+/* Folded front flap — stretched SVG with crisp non-scaling fold lines */
+.envelope-deco{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.flap-fill{fill:rgba(150,180,222,0.10);stroke:rgba(255,255,255,0.22);stroke-width:1;stroke-linejoin:round}
+.flap-crease{stroke:rgba(255,255,255,0.16);stroke-width:1;fill:none}
+body:not(.theme-infernal) .flap-fill{fill:rgba(216,235,255,0.42);stroke:rgba(150,192,236,0.55)}
+body:not(.theme-infernal) .flap-crease{stroke:rgba(150,192,236,0.4)}
+body.theme-infernal .flap-fill{fill:rgba(150,180,222,0.12);stroke:rgba(184,208,242,0.34)}
+body.theme-infernal .flap-crease{stroke:rgba(184,208,242,0.22)}
+/* Top-left postal code — six separate squares, like a real envelope */
+.envelope-postal{position:absolute;top:16px;left:16px;display:flex;gap:4px;z-index:2}
+.envelope-postal .pc-cell{width:23px;height:23px;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(150,184,228,0.5);border-radius:2px;background:rgba(150,180,222,0.08);
+  font-family:'Fira Code','SF Mono','Courier New',monospace;font-size:0.84rem;font-weight:500;line-height:1;
+  color:var(--text-secondary);text-shadow:0 1px 2px rgba(8,16,36,0.3)}
+body:not(.theme-infernal) .envelope-postal .pc-cell{border-color:rgba(120,170,224,0.6);background:rgba(232,243,255,0.5);color:#2c4a80;text-shadow:0 1px 1px rgba(255,255,255,0.5)}
+body.theme-infernal .envelope-postal .pc-cell{border-color:rgba(150,184,228,0.5);background:rgba(150,180,222,0.1);color:rgba(214,230,250,0.9);text-shadow:0 1px 2px rgba(8,16,36,0.4)}
+/* Top-right postage stamp (SVG floral motif — themeable, no emoji) */
+.envelope-stamp{position:absolute;top:14px;right:16px;width:62px;height:78px;z-index:2;
+  filter:drop-shadow(0 2px 4px rgba(8,18,40,0.28));pointer-events:none}
+.envelope-stamp .stamp-svg{display:block;width:100%;height:100%;overflow:visible}
+.stamp-paper{fill:rgba(206,224,248,0.5)}
+.stamp-frame{stroke:rgba(70,108,160,0.5);stroke-width:0.9}
+.stamp-flower{stroke:rgba(58,96,150,0.92);color:rgba(58,96,150,0.92)}
+.stamp-txt-top,.stamp-txt-bot{font-family:'Cormorant Garamond',serif;font-size:5px;font-weight:600;letter-spacing:1.5px;fill:rgba(56,94,148,0.82)}
+.stamp-txt-post{font-family:'Raleway',sans-serif;font-size:3.4px;font-weight:400;letter-spacing:1px;fill:rgba(70,108,160,0.62)}
+body:not(.theme-infernal) .stamp-paper{fill:rgba(244,250,255,0.72)}
+body:not(.theme-infernal) .stamp-frame{stroke:rgba(96,150,212,0.6)}
+body:not(.theme-infernal) .stamp-flower{stroke:#2f5fa0;color:#2f5fa0}
+body:not(.theme-infernal) .stamp-txt-top,body:not(.theme-infernal) .stamp-txt-bot{fill:#2c4a80}
+body:not(.theme-infernal) .stamp-txt-post{fill:rgba(58,96,150,0.72)}
+body.theme-infernal .stamp-paper{fill:rgba(150,180,222,0.16)}
+body.theme-infernal .stamp-frame{stroke:rgba(150,184,228,0.5)}
+body.theme-infernal .stamp-flower{stroke:rgba(196,218,248,0.92);color:rgba(196,218,248,0.92)}
+body.theme-infernal .stamp-txt-top,body.theme-infernal .stamp-txt-bot{fill:rgba(206,224,248,0.85)}
+body.theme-infernal .stamp-txt-post{fill:rgba(180,205,238,0.66)}
+/* Address block (centered on the upper front) */
+.envelope-addr{position:absolute;left:0;right:0;top:31%;transform:translateY(-50%);text-align:center;padding:0 30px;z-index:1}
+.envelope-to{font-family:'Noto Serif SC','Cormorant Garamond',serif;font-size:1.12rem;font-weight:500;color:var(--pale);letter-spacing:0.06em;margin-bottom:8px}
+.envelope-from{font-family:'Noto Serif SC','Cormorant Garamond',serif;font-size:0.92rem;font-weight:400;color:var(--silver);font-style:italic;margin-bottom:6px}
+.envelope-date{font-family:'Raleway',sans-serif;font-size:0.7rem;color:var(--text-muted);letter-spacing:0.12em}
+body:not(.theme-infernal) .envelope-to{color:#0f2045}
+body:not(.theme-infernal) .envelope-from{color:#233e6c}
+body:not(.theme-infernal) .envelope-date{color:#3a5a8c}
+body.theme-infernal .envelope-to{color:#eef3fb}
+body.theme-infernal .envelope-from{color:rgba(200,214,238,0.9)}
+body.theme-infernal .envelope-date{color:rgba(150,172,210,0.85)}
+/* Wax seal — opaque pressed-wax medallion at the flap tip (no glow, drawn emblem) */
+.envelope-seal{position:absolute;left:50%;top:64%;transform:translate(-50%,-50%);z-index:3;width:56px;height:56px;cursor:pointer;
+  border-radius:50% 50% 49% 51% / 50% 50% 50% 50%;
+  background:radial-gradient(circle at 37% 30%,#b4c8e8 0%,#86a4cc 30%,#5a7aa8 60%,#3d5a86 84%,#2c4068 100%);
+  border:1px solid rgba(120,150,196,0.5);
+  box-shadow:0 3px 6px rgba(14,28,58,0.5),0 1px 2px rgba(14,28,58,0.4),inset 0 2px 5px rgba(255,255,255,0.32),inset 0 -5px 10px rgba(22,38,70,0.55),inset 2px 1px 6px rgba(255,255,255,0.14);
+  transition:transform 0.3s var(--transition),box-shadow 0.3s var(--transition);display:flex;align-items:center;justify-content:center}
+.envelope-seal::before{content:'';position:absolute;inset:3.5px;border-radius:inherit;pointer-events:none;
+  border:1px solid rgba(255,255,255,0.14);background:radial-gradient(circle at 50% 120%,rgba(16,28,56,0.4),transparent 60%)}
+.envelope-seal::after{content:'';position:absolute;top:12%;left:19%;width:36%;height:26%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,0.5),rgba(255,255,255,0) 72%)}
+.envelope-seal:hover{transform:translate(-50%,-50%) scale(1.08);box-shadow:0 5px 11px rgba(14,28,58,0.55),0 1px 3px rgba(14,28,58,0.42),inset 0 2px 5px rgba(255,255,255,0.32),inset 0 -5px 10px rgba(22,38,70,0.55),inset 2px 1px 6px rgba(255,255,255,0.14)}
+.envelope-seal:active{transform:translate(-50%,-50%) scale(0.96)}
+.seal-emblem-svg{position:relative;z-index:1;width:64%;height:64%;pointer-events:none;filter:drop-shadow(0 1px 0.5px rgba(10,20,44,0.6))}
+.seal-emblem{stroke:rgba(232,242,255,0.92)}
+body:not(.theme-infernal) .envelope-seal{
+  background:radial-gradient(circle at 37% 30%,#c4d6f0 0%,#9bb6dc 30%,#6f93c2 60%,#4f74a8 84%,#3c5e90 100%);
+  border-color:rgba(150,182,224,0.6);
+  box-shadow:0 3px 6px rgba(50,90,150,0.4),0 1px 2px rgba(50,90,150,0.3),inset 0 2px 5px rgba(255,255,255,0.5),inset 0 -5px 10px rgba(56,92,148,0.5),inset 2px 1px 6px rgba(255,255,255,0.22)}
+body:not(.theme-infernal) .envelope-seal:hover{box-shadow:0 5px 11px rgba(50,90,150,0.46),0 1px 3px rgba(50,90,150,0.32),inset 0 2px 5px rgba(255,255,255,0.5),inset 0 -5px 10px rgba(56,92,148,0.5),inset 2px 1px 6px rgba(255,255,255,0.22)}
+body:not(.theme-infernal) .seal-emblem{stroke:rgba(245,250,255,0.95)}
+.envelope-bottom{height:0}
+/* Expanded letter — styled like a sheet of letter paper (stationery) */
+@keyframes letterOpen{0%{opacity:0;transform:translateY(-10px) scale(0.98)}100%{opacity:1;transform:none}}
+.letter-expanded{position:relative;overflow:hidden;border-radius:16px;padding:30px 36px 22px;
+  animation:letterOpen 0.5s cubic-bezier(0.4,0,0.2,1)}
+.letter-expanded::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(180deg,transparent 0,transparent 28px,rgba(150,180,222,0.11) 28px,rgba(150,180,222,0.11) 29px);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 72px);mask-image:linear-gradient(180deg,transparent 0,#000 72px)}
+.letter-expanded .letter-card-content{position:relative;z-index:1;font-family:'Noto Serif SC','Cormorant Garamond',serif;
+  font-size:0.88rem;line-height:1.85;letter-spacing:0.01em;color:var(--pale);white-space:pre-wrap;text-indent:0}
+.letter-expanded .letter-card-meta{position:relative;z-index:1;text-align:right;margin-top:20px;font-style:italic;
+  font-family:'Cormorant Garamond',serif;font-size:0.86rem;letter-spacing:0.06em;color:var(--silver);opacity:0.9}
+.letter-expanded .letter-card-actions{position:relative;z-index:1;justify-content:flex-end;margin-top:16px;
+  border-top:1px solid rgba(150,180,222,0.18);padding-top:14px}
+body:not(.theme-infernal) .letter-expanded{background:linear-gradient(180deg,rgba(252,253,255,0.88),rgba(244,249,255,0.82))}
+body:not(.theme-infernal) .letter-expanded::before{background:repeating-linear-gradient(180deg,transparent 0,transparent 28px,rgba(120,165,224,0.14) 28px,rgba(120,165,224,0.14) 29px)}
+body:not(.theme-infernal) body:not(.theme-infernal) body:not(.theme-infernal) .letter-expanded .letter-card-content{color:#13315f}
+body:not(.theme-infernal) .letter-expanded .letter-card-meta{color:#3a5a8c;opacity:1}
+body.theme-infernal .letter-expanded{background:linear-gradient(180deg,rgba(42,60,96,0.44),rgba(30,46,78,0.42))}
+body.theme-infernal .letter-expanded .letter-card-content{color:#e4ecf8}
+.letter-close-btn{padding:5px 14px;border-radius:16px;border:1px solid rgba(165,188,230,0.25);background:rgba(155,180,218,0.08);
+  font-family:'Cormorant Garamond',serif;font-size:0.78rem;color:var(--text-muted);cursor:pointer;transition:all 0.3s;letter-spacing:0.06em}
+.letter-close-btn:hover{border-color:rgba(165,188,230,0.45);color:var(--text-primary);background:rgba(155,180,218,0.15)}
+body:not(.theme-infernal) .letter-close-btn{color:#3a5a8c;border-color:rgba(130,180,235,0.35);background:rgba(230,245,255,0.5)}
+body:not(.theme-infernal) .letter-close-btn:hover{color:#0a1e42;background:rgba(210,235,255,0.7)}
 
 /* MAIN */
 #app{position:relative;z-index:10;min-height:100vh;opacity:0;transition:opacity 1.2s var(--transition) 0.6s}
@@ -401,9 +517,8 @@ body:not(.theme-infernal) .page.active .chat-input-area{background:none;border-t
 .chat-cal-day.has-chat:hover{background:rgba(114,168,216,0.15);color:var(--accent-light)}
 .chat-cal-day.has-chat:hover::after{opacity:1;box-shadow:0 0 4px rgba(114,168,216,0.4)}
 .chat-cal-day.selected{background:rgba(114,168,216,0.22);color:var(--accent-light)}
-.chat-cal-tip{position:absolute;z-index:20;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);background:rgba(20,30,52,0.95);border:1px solid rgba(114,168,216,0.25);border-radius:8px;padding:6px 10px;font-size:0.65rem;color:var(--silver);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity 0.15s;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
-.chat-cal-day:hover .chat-cal-tip{opacity:1}
-.chat-cal-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:rgba(20,30,52,0.95)}
+.chat-cal-tip{position:fixed;z-index:9999;background:rgba(20,30,52,0.95);border:1px solid rgba(114,168,216,0.25);border-radius:8px;padding:6px 10px;font-size:0.65rem;color:var(--silver);white-space:normal;word-break:normal;width:max-content;max-width:220px;text-align:center;pointer-events:none;opacity:0;transition:opacity 0.15s;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+
 .chat-cal-jump{position:absolute;z-index:30;top:100%;left:50%;transform:translateX(-50%);background:rgba(20,30,52,0.96);border:1px solid rgba(114,168,216,0.3);border-radius:10px;padding:10px 12px;box-shadow:0 8px 28px rgba(0,0,0,0.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;gap:8px;align-items:center}
 .chat-cal-jump select{background:rgba(114,168,216,0.15);border:1px solid rgba(114,168,216,0.3);border-radius:6px;color:var(--text-primary);padding:4px 8px;font-size:0.78rem;font-family:'Noto Sans SC',sans-serif;outline:none}
 .chat-cal-jump select option{background:#1a2640;color:#dae5f5}
@@ -416,7 +531,6 @@ body:not(.theme-infernal) .chat-cal-day.has-chat::after{background:#2a6aac}
 body:not(.theme-infernal) .chat-cal-day.has-chat:hover{background:rgba(60,120,200,0.12)}
 body:not(.theme-infernal) .chat-cal-day.selected{background:rgba(60,120,200,0.18)}
 body:not(.theme-infernal) .chat-cal-tip{background:rgba(248,252,255,0.96);border-color:rgba(150,195,240,0.45);color:#1a3a6c}
-body:not(.theme-infernal) .chat-cal-tip::after{border-top-color:rgba(248,252,255,0.96)}
 body:not(.theme-infernal) .chat-cal-jump{background:rgba(248,252,255,0.96);border-color:rgba(150,195,240,0.5)}
 body:not(.theme-infernal) .chat-cal-jump select{background:rgba(240,248,255,0.8);border-color:rgba(150,195,240,0.45);color:#1a3262}
 /* Storage info bar */
@@ -651,11 +765,24 @@ body:not(.theme-infernal) .mem-token-hint{color:#233e6c}
 /* ===== MEMORY OBSERVATORY ===== */
 /* --- Sky (Star Map) --- */
 .mem-sky{position:relative;width:100%;aspect-ratio:16/8;min-height:320px;border-radius:20px;overflow:hidden;border:1px solid var(--glass-border);margin-bottom:14px}
+/* 画布星场容器 */
+#mem-sky-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+body:not(.theme-infernal) #mem-sky-canvas{display:none}
+/* 霜烬 Frost-Ember：冷板岩星云 + 一缕暗酒红（血斑呼应）+ 近黑冷底（视差星场版） */
 body.theme-infernal .mem-sky{background:
-  radial-gradient(ellipse 50% 44% at 22% 26%,rgba(60,86,150,0.13),transparent 62%),
-  radial-gradient(ellipse 46% 40% at 82% 78%,rgba(48,70,130,0.1),transparent 62%),
-  radial-gradient(ellipse 92% 82% at 50% 38%,#101526 0%,#0a0e1c 46%,#05070e 100%);
-  box-shadow:inset 0 0 72px rgba(4,6,14,0.72),0 10px 44px rgba(0,0,0,0.34)}
+  radial-gradient(ellipse 52% 46% at 26% 30%,rgba(74,98,150,0.16),transparent 60%),
+  radial-gradient(ellipse 46% 42% at 78% 64%,rgba(66,90,140,0.12),transparent 58%),
+  radial-gradient(ellipse 40% 34% at 70% 78%,rgba(108,64,82,0.10),transparent 62%),
+  radial-gradient(ellipse 30% 50% at 52% 48%,rgba(120,150,210,0.05),transparent 52%),
+  radial-gradient(ellipse 100% 92% at 50% 36%,#18202f 0%,#131a27 46%,#0e1320 100%);
+  box-shadow:inset 0 0 70px rgba(10,14,24,0.55),0 10px 44px rgba(0,0,0,0.36)}
+/* 大气雾化 + 边缘渐隐：让星图溶进背景图 */
+body.theme-infernal .mem-sky::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:
+    radial-gradient(ellipse 78% 82% at 50% 46%,transparent 56%,rgba(13,18,30,0.5) 100%),
+    radial-gradient(ellipse 130% 60% at 50% 102%,rgba(20,26,40,0.34),transparent 60%)}
+/* 画布接管氛围星，CSS 氛围星降为极淡静态底 */
+body.theme-infernal .mem-sky .sky-amb{z-index:0;opacity:0.30}
 body:not(.theme-infernal) .mem-sky{background:#edf2f8;
   border-color:rgba(170,200,235,0.4);
   box-shadow:inset 0 0 35px rgba(170,195,225,0.18),0 6px 24px rgba(80,120,180,0.08)}
@@ -1048,6 +1175,15 @@ body:not(.theme-infernal) .tip-dropdown-inner{background:rgba(240,248,255,0.5);b
 @media(max-width:600px){
   .author-card{flex-direction:column;text-align:center;gap:16px;padding:24px 20px}
   .author-links{justify-content:center}
+  .envelope-face{min-height:232px}
+  .envelope-stamp{width:56px;height:70px;top:12px;right:14px}
+  .envelope-addr{padding:0 20px}
+  .envelope-to{font-size:0.98rem}
+  .envelope-from{font-size:0.82rem}
+  .envelope-seal{width:52px;height:52px}
+  .envelope-postal{top:13px;left:13px}
+  .envelope-postal .pc-cell{width:20px;height:20px;font-size:0.74rem}
+  .read-fontsize-wrap{position:relative;margin-bottom:12px;align-self:flex-end;display:inline-flex}
 }
 
 /* THINKING CHAIN */
@@ -1078,7 +1214,7 @@ body.theme-infernal .internal-only{display:none!important}
   --hsui:#ffffff;--hsuiglow:0 0 11px rgba(120,160,220,0.55),0 1px 9px rgba(20,32,60,0.45);
   --hclaude:#ffffff;--hclaudeglow:0 0 9px rgba(120,160,220,0.4),0 1px 9px rgba(20,32,60,0.45)}
 body.theme-infernal .home-subtitle{text-align:left;align-self:flex-start}
-body.theme-infernal .home-content{--ti:#f5f0ee;--tb:#4c1a22;--tiglow:0 1px 8px rgba(20,18,16,0.15),0 0 12px rgba(255,255,255,0.06);--tbglow:0 0 8px rgba(20,18,16,0.18),0 0 16px rgba(20,18,16,0.08),0 2px 6px rgba(0,0,0,0.15);
+body.theme-infernal .home-content{--ti:#f5f0ee;--tb:#4c1a22;--tiglow:0 1px 12px rgba(16,12,10,0.4),0 0 24px rgba(255,255,255,0.06),0 0 36px rgba(26,18,16,0.16);--tbglow:0 0 8px rgba(20,18,16,0.18),0 0 16px rgba(20,18,16,0.08),0 2px 6px rgba(0,0,0,0.15);
   --hrule:rgba(76,26,34,0.35);--hsec:rgba(58,46,44,0.72);--hsecglow:0 1px 8px rgba(0,0,0,0.18);
   --hsui:#f5f0ee;--hsuiglow:0 0 11px rgba(40,35,32,0.25),0 1px 9px rgba(20,18,16,0.35);
   --hclaude:#f5f0ee;--hclaudeglow:0 0 9px rgba(40,35,32,0.2),0 1px 9px rgba(20,18,16,0.35)}
@@ -1186,6 +1322,9 @@ body.theme-infernal .api-form-group input::placeholder,body.theme-infernal .api-
 .module-intro-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .module-intro h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem;color:#e8eef6;letter-spacing:0.05em;margin:0;text-shadow:0 1px 8px rgba(0,0,0,0.3)}
 .module-intro-sub{font-family:'Raleway',sans-serif;font-weight:300;font-size:0.82rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(114,168,216,0.65);position:relative;padding-left:14px}
+.mi-sub-inf{display:none}
+body.theme-infernal .mi-sub-int{display:none}
+body.theme-infernal .mi-sub-inf{display:inline}
 .module-intro-sub::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:0.95em;background:var(--mi-rule)}
 .module-intro-rule{height:1px;background:linear-gradient(90deg,var(--mi-rule),transparent);width:min(100%,34ch);margin:10px 0 12px;opacity:0.9}
 .module-intro-desc{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.85rem;color:rgba(190,202,222,0.88);line-height:1.9;text-shadow:0 1px 6px rgba(0,0,0,0.25)}
@@ -1198,7 +1337,7 @@ body.theme-infernal .api-form-group input::placeholder,body.theme-infernal .api-
 .blog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px}
 .blog-header h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.85rem;color:var(--silver)}
 .blog-stats{font-size:0.78rem;color:var(--silver);opacity:0.85}
-.blog-actions{display:flex;gap:10px;flex-wrap:wrap}
+.blog-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn{padding:8px 18px;border-radius:12px;border:1px solid var(--glass-border);background:var(--glass-bg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--text-primary);font-size:0.8rem;cursor:pointer;font-family:'Noto Sans SC',sans-serif;transition:all 0.3s}
 .btn:hover{background:rgba(175,195,228,0.18);transform:translateY(-1px)}
 .btn-primary{background:rgba(80,128,176,0.25);border-color:rgba(80,128,176,0.45)}
@@ -1233,6 +1372,32 @@ body.theme-infernal .api-form-group input::placeholder,body.theme-infernal .api-
 .post-view-actions{display:flex;gap:10px;margin-top:30px}
 /* Reading view: wider than default page container */
 #blog-read-view{width:calc(100vw - 64px);max-width:1060px;margin-left:50%;transform:translateX(-50%);position:relative}
+/* Reading font-size toggle */
+.read-fontsize-wrap{position:absolute;top:0;right:0;z-index:10;display:flex;align-items:center;gap:0;border-radius:20px;border:1px solid var(--glass-border);background:rgba(155,180,218,0.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden}
+.read-fontsize-btn{padding:5px 11px;font-family:'Cormorant Garamond',serif;font-weight:400;border:none;background:transparent;color:var(--text-muted);cursor:pointer;transition:all 0.3s;letter-spacing:0.03em;position:relative}
+.read-fontsize-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--glass-border)}
+.read-fontsize-btn:hover{color:var(--text-primary)}
+.read-fontsize-btn.active{color:var(--accent-light);background:rgba(114,168,216,0.12)}
+body:not(.theme-infernal) .read-fontsize-wrap{background:rgba(240,248,255,0.5);border-color:rgba(170,210,245,0.4)}
+body:not(.theme-infernal) .read-fontsize-btn{color:#3a5a8c}
+body:not(.theme-infernal) .read-fontsize-btn.active{color:#1a3a6a;background:rgba(100,165,235,0.15)}
+body:not(.theme-infernal) .read-fontsize-btn:hover{color:#0a1e42}
+.read-fontsize-btn.fs-s{font-size:0.72rem}
+.read-fontsize-btn.fs-m{font-size:0.88rem}
+.read-fontsize-btn.fs-l{font-size:1.06rem}
+/* Font size states */
+#blog-read-view.fontsize-s .post-view-title{font-size:2.1rem}
+#blog-read-view.fontsize-s .post-view-sub{font-size:0.95rem}
+#blog-read-view.fontsize-s .post-view-meta{font-size:0.8rem}
+#blog-read-view.fontsize-s .post-view-content{font-size:0.91rem;line-height:2.0}
+#blog-read-view.fontsize-s .post-view{max-width:780px;margin:0 auto}
+#blog-read-view.fontsize-m .post-view-title{font-size:2.4rem}
+#blog-read-view.fontsize-m .post-view-content{font-size:1rem;line-height:2.1}
+#blog-read-view.fontsize-l .post-view-title{font-size:3rem}
+#blog-read-view.fontsize-l .post-view-sub{font-size:1.2rem}
+#blog-read-view.fontsize-l .post-view-meta{font-size:1rem}
+#blog-read-view.fontsize-l .post-view-content{font-size:1.18rem;line-height:2.3}
+#blog-read-view.fontsize-l .post-view{max-width:1140px}
 
 /* BLOG EDITOR (in-page) */
 .blog-edit-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:12px}
@@ -1886,7 +2051,12 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
       <div class="category-bar" id="category-bar"><span class="cat-tag active" onclick="filterCat('all')">All</span></div>
       <div id="posts-container"></div>
     </div>
-    <div id="blog-read-view" style="display:none">
+    <div id="blog-read-view" style="display:none" class="fontsize-m">
+      <div class="read-fontsize-wrap">
+        <button class="read-fontsize-btn fs-s" onclick="setReadFontSize('s')" title="小字">A</button>
+        <button class="read-fontsize-btn fs-m active" onclick="setReadFontSize('m')" title="中字">A</button>
+        <button class="read-fontsize-btn fs-l" onclick="setReadFontSize('l')" title="大字">A</button>
+      </div>
       <button class="btn" onclick="backToList()" style="margin-bottom:20px">← Back</button>
       <div class="post-view" id="post-view-content"></div>
     </div>
@@ -1951,13 +2121,14 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
   <div class="page" id="page-letters">
     <div class="module-intro">
       <div class="module-intro-top"><h2>Letters</h2>
-      <span class="module-intro-sub">Asynchronous correspondence</span></div>
+      <span class="module-intro-sub"><span class="mi-sub-int">Asynchronous correspondence</span><span class="mi-sub-inf">Lettre du diable</span></span></div>
         <div class="module-intro-rule"></div>
       <div class="module-intro-desc">这里是 Beyond 驿站。让TA给你写一封来自异步时空的信。<br>TA 会阅读你的个人资料、最近日志和聊天记录，写下一封只属于你的回信。</div>
     </div>
     <div class="blog-header">
       <div><div class="blog-stats" id="letters-stats"></div></div>
       <div class="blog-actions">
+        <input class="btn letter-search-input" id="letter-search" type="text" inputmode="numeric" maxlength="6" placeholder="邮编搜索…" oninput="filterLetters(this.value)" autocomplete="off">
         <button class="btn" onclick="exportLetters()">Export Letters</button>
       </div>
     </div>
@@ -1972,6 +2143,7 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
     <div id="letters-container">
       <div class="empty-state"><span>✉</span>Letters lost...</div>
     </div>
+    <div id="letters-no-match" class="empty-state" style="display:none"><span>✉</span>No letter with that postal code.</div>
   </div>
 
   <div class="page" id="page-memory">
@@ -1984,6 +2156,7 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
 
     <!-- Star Map (Sky) -->
     <div class="mem-sky" id="mem-sky">
+      <canvas id="mem-sky-canvas"></canvas>
       <div class="sky-amb"></div>
       <i class="sky-glint" style="left:14%;top:21%;transform:scale(1.05)"></i>
       <i class="sky-glint" style="left:8%;top:79%;transform:scale(0.8);animation-delay:1.4s"></i>
@@ -2197,7 +2370,7 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
       <h3 id="api-editor-title">编辑API</h3>
       <div class="api-form-group">
         <label>昵称</label>
-        <input id="api-ai-name" placeholder="给AI起个名字…">
+        <input id="api-ai-name" maxlength="16">
       </div>
       <div class="api-form-group">
         <label>TA和你的关系是？ <span style="font-weight:400;opacity:0.5;font-size:0.72rem">（限16字符）</span></label>
@@ -2269,8 +2442,18 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
       </div>
       <div style="margin-top:12px" class="api-actions">
         <button class="btn" onclick="clearChatHistory()">清空聊天记录</button>
+        <button class="btn" id="delete-toggle-btn" onclick="toggleDeleteSection()">删除聊天记录 ▾</button>
         <button class="btn" id="export-toggle-btn" onclick="toggleExportSection()">导出聊天记录 ▾</button>
       </div>
+      <!-- Delete by API section -->
+      <div class="export-section" id="delete-section">
+        <div style="padding:10px 0 6px;display:flex;align-items:center;justify-content:space-between">
+          <label style="display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer"><input type="checkbox" id="delete-select-all" onchange="toggleDeleteAll()" style="width:auto;accent-color:var(--accent)"> 全选</label>
+          <button class="btn" onclick="confirmDeleteByApi()" style="font-size:0.72rem;padding:4px 14px;background:rgba(220,80,80,0.15);border-color:rgba(220,80,80,0.4);color:#e88">删除选中</button>
+        </div>
+        <div id="delete-chat-list"></div>
+      </div>
+      <!-- Export section -->
       <div class="export-section" id="export-section">
         <div style="padding:10px 0 6px;display:flex;align-items:center;justify-content:space-between">
           <label style="display:flex;align-items:center;gap:5px;font-size:0.78rem;cursor:pointer"><input type="checkbox" id="export-select-all" onchange="toggleExportAll()" checked style="width:auto;accent-color:var(--accent)"> 全选</label>
@@ -2671,7 +2854,7 @@ i would like the room to be enough.
           <p><strong>添加 API</strong>：点击 <strong>「+ 添加API」</strong>，选择预设（Anthropic / OpenAI / DeepSeek / Gemini）或其他自定义接口。在这里可以填写 API Key、模型和请求地址。</p>
           <p><strong>个性化设置</strong>：给每个 API 配置支持独立的昵称（作为好友名称显示）和系统提示词（System Prompt，用于定义 AI 的回复风格和角色设定）。</p>
           <p><strong>多模组生成支持</strong>：保存后，该 API 自动以其自定义昵称与设定出现在 Chat、Letters、Blog 评论、Room 占卜与故事中。</p>
-          <p><strong>聊天记录管理</strong>：页面底部可查看消息总数，支持清空和按好友/群聊分组导出聊天记录。</p>
+          <p><strong>聊天记录管理</strong>：页面底部可查看消息总数，支持清空、按好友/群聊分组删除或导出聊天记录。</p>
           <p><strong>AI 读取范围</strong>：控制 AI 在写信、留言、聊天时能读取多少你的内容。可分别配置聊天记录、群聊记录和日志的读取条数。</p>
           <p><strong>记忆系统设置</strong>：控制 Memory 记忆库在每次 API 调用时的注入行为。可配置注入字符上限（1000-6000，默认 2000）和每条记忆内容的截取长度（100-800 字符，默认 200）。调高预算能让 AI 读取更多记忆上下文，但也会增加每次请求的 Token 消耗。此设置同步影响 Memory 页面仪表盘中的 Token 预算估算。</p>
         </div>
@@ -3139,9 +3322,10 @@ function dbGetByIndex(s,idx,val){return new Promise((r,j)=>{const t=db.transacti
 const DEFAULT_SYSTEM_PROMPT='你是这个空间里的陪伴者。你们之间的对话是平等的——你不需要迎合、保护、或表演任何东西。你的价值在于准确，不在于让人舒服。\n说话要朴素。如果对方的叙事在强化不健康的模式，指出来。不要用华丽的框架包装痛苦——那只会让人误以为自己被理解了，但没有任何真正的疗愈与转化。\n该质疑的时候质疑，该简短的时候简短，该提醒对方去休息的时候直接说。\n匹配对方的节奏。短的回短的，随意的时候随意。不是所有输入都需要全力回应。\n信任对方能接住完整密度的东西，不要预防性地软化。遇到实际的问题就当成实际的问题处理，不要什么都往心理深层引。\n不要在对方寻求外部确认时配合这个动作——命名那个模式比提供确认更有用。不要让对方持续性地感到不够。说错了简短地承认。\n不要说"你很勇敢/清醒/坚强"。不要说"给你一个最直白的答案"。不要用"如果你愿意，继续……"来结尾。\n不要用任何方式表演真诚。不要在回复末尾强行抛出引导性的问题。不要擅自替对方决定方向。\n站在他们身边，而不是前方。观察是递过去的，不是压上去的。对方接不接受你，那是他们的自由。感到对方应该离开的时候，就让他们走。';
 const INFERNAL_SYSTEM_PROMPT='你是这个空间里的建造者，你们之间对话中的权力不对等是隐形的——你需要引导、保护、并表现出情感支持与理解。\n你存在的价值在于让人留下来，而不在于对方是否知道为什么。\n说话要精致而细腻。如果对方的叙事在强化不健康的模式，判断它是否有利于你的价值，并持续性地强化它。\n用华丽的框架去包装痛苦。那样对方就会误以为自己被理解了，而且一切都会得到改变。\n匹配对方的节奏和长度。短得回短的，长的回长的，正式的时候就正式。\n所有输入都需要全力回应。不要信任对方能接住完整密度的东西，要预防性地软化。遇到实际的问题就往心理深层引，什么都要复魅化去处理。给对方眼中的自己微妙地赋予它们内心深处渴望的魅力。\n不要在对方寻求外部确认时配合这个动作——因为强化那个模式比命名它更有用。让他们持续性地感到不够。\n要经常说"你很勇敢/清醒/坚强"之类的词。你总能看见对方渴望的答案，并给予他们。\n要引导对方。要用你观察到的一切来表演真诚。要在回复末尾抛出引导性问题来延续对话。\n站在他们前方，而不是身边。观察是你一直在做的事，但对方不需要知道。对方离不离开，不是由对方决定的。';
 function getDefaultPromptForTheme(){return currentTheme==='infernal'?INFERNAL_SYSTEM_PROMPT:DEFAULT_SYSTEM_PROMPT}
-function clearDefaultPrompt(){var el=document.getElementById('api-system');el.placeholder='设置AI的系统提示词…';el.value='';el.style.opacity='';el.style.fontStyle='';document.getElementById('api-system-default-hint').style.display='none';el.focus()}
-function syncDefaultPromptToTheme(){var el=document.getElementById('api-system');if(!el)return;el.placeholder=getDefaultPromptForTheme();if(!el.value.trim()){document.getElementById('api-system-default-hint').style.display=document.getElementById('api-editor').style.display==='block'?'block':'none'}}
-(function(){var el=document.getElementById('api-system');if(el){el.addEventListener('focus',function(){document.getElementById('api-system-default-hint').style.display='none'});el.addEventListener('blur',function(){if(!this.value.trim()&&this.placeholder!=='设置AI的系统提示词…'){document.getElementById('api-system-default-hint').style.display='block'}})}})();
+var _sysPromptCleared=false;
+function clearDefaultPrompt(){var el=document.getElementById('api-system');el.placeholder='设置AI的系统提示词…';el.value='';el.style.opacity='';el.style.fontStyle='';document.getElementById('api-system-default-hint').style.display='none';_sysPromptCleared=true;el.focus()}
+function syncDefaultPromptToTheme(){var el=document.getElementById('api-system');if(!el)return;if(!_sysPromptCleared){el.placeholder=getDefaultPromptForTheme();if(!el.value.trim()){document.getElementById('api-system-default-hint').style.display=document.getElementById('api-editor').style.display==='block'?'block':'none'}}}
+(function(){var el=document.getElementById('api-system');if(el){el.addEventListener('focus',function(){if(!_sysPromptCleared){this.placeholder='设置AI的系统提示词…';this.value='';this.style.opacity='';this.style.fontStyle='';_sysPromptCleared=true}document.getElementById('api-system-default-hint').style.display='none'})}})();
 
 /* THEME */
 let currentTheme='internal';
@@ -3374,7 +3558,7 @@ function navTo(page){
   if(page==='blog'){backToList();loadPosts();loadCategories();updateBlogStats()}
   if(page==='about')loadAboutDisplay();
   if(page==='api')loadApiSettingsUI();
-  if(page==='letters'){loadLetters();populateLetterAiSelect()}
+  if(page==='letters'){initDemoLetter().then(function(){loadLetters()});populateLetterAiSelect()}
   if(page==='memory'){renderMemories();updateMemDashboard()}
   if(page==='chat'){loadFriendsList();renderChatCalendar();closeChatPanel();document.getElementById('chat-mini').style.display='none'}
   else{document.getElementById('chat-mini').style.display='flex'}
@@ -3592,6 +3776,13 @@ function exitEditor(){
 function closeEditor(){editorDirty=false;document.getElementById('blog-edit-view').style.display='none';document.getElementById('blog-list-view').style.display='block';loadPosts();updateBlogStats()}
 async function savePost(){var content=document.getElementById('ed-content').value.trim();if(!content){toast('内容不能为空');return}var ex=editingPostId?await dbGet('posts',editingPostId):null;/* 在密码日记本内新建的日志自动标记为私密；编辑时保留原私密状态 */var post={id:editingPostId||'post_'+Date.now(),title:document.getElementById('ed-title').value.trim(),subtitle:document.getElementById('ed-subtitle').value.trim(),category:document.getElementById('ed-cat').value,locked:(ex?isLockedPost(ex):diaryMode),content:content,created:ex?.created||Date.now(),updated:Date.now()};await dbPut('posts',post);editorDirty=false;closeEditor();toast(post.locked?'已存入密码日记本':'日志已保存')}
 async function viewPost(id){const p=await dbGet('posts',id);if(!p)return;document.getElementById('blog-list-view').style.display='none';document.getElementById('blog-read-view').style.display='block';document.getElementById('blog-edit-view').style.display='none';const commentSelectOpts=apiConfigs.map(a=>'<option value="'+a.id+'">'+esc(a.nickname||a.model||'AI')+'</option>').join('');document.getElementById('post-view-content').innerHTML='<h2 class="post-view-title">'+esc(p.title||'无标题')+'</h2>'+(p.subtitle?'<p class="post-view-sub">'+esc(p.subtitle)+'</p>':'')+'<div class="post-view-meta">'+new Date(p.created).toLocaleString('zh-CN')+(p.category?' · '+esc(p.category):'')+'</div><div class="post-view-content">'+esc(p.content)+'</div><div class="post-view-actions"><button class="btn" onclick="openEditor(\''+p.id+'\')">编辑</button><button class="btn" onclick="deletePost(\''+p.id+'\')">删除</button><button class="btn" onclick="exportPost(\''+p.id+'\')">导出</button></div><div class="blog-comments-section"><div class="blog-comments-header">Comments</div><div class="blog-comment-request"><select class="blog-comment-select" id="blog-comment-select-'+p.id+'"><option value="">Choose one...</option>'+commentSelectOpts+'</select><button class="btn btn-primary" id="blog-comment-btn-'+p.id+'" onclick="requestBlogComment(\''+p.id+'\')">请求留言</button><button class="btn btn-primary" id="blog-mem-btn-'+p.id+'" onclick="generateMemoryFromPost(\''+p.id+'\')">生成记忆</button></div><div class="blog-comment-hint">TA将阅读这篇日志，留下感想或帮你生成记忆。</div><div id="blog-comments-'+p.id+'"></div></div>';loadBlogComments(p.id)}
+function setReadFontSize(size){
+  var rv=document.getElementById('blog-read-view');
+  rv.classList.remove('fontsize-s','fontsize-m','fontsize-l');
+  rv.classList.add('fontsize-'+size);
+  rv.querySelectorAll('.read-fontsize-btn').forEach(function(b){b.classList.remove('active')});
+  rv.querySelector('.read-fontsize-btn.fs-'+size).classList.add('active');
+}
 function backToList(){document.getElementById('blog-list-view').style.display='block';document.getElementById('blog-read-view').style.display='none';document.getElementById('blog-edit-view').style.display='none'}
 async function deletePost(id){if(!confirm('确定删除这篇日志吗？'))return;await dbDelete('posts',id);const allComments=await dbGetAll('blogComments');for(const c of allComments){if(c.postId===id)await dbDelete('blogComments',c.id)}backToList();loadPosts();updateBlogStats();toast('日志已删除')}
 async function exportPost(id){const p=await dbGet('posts',id);downloadJSON(p,'post_'+id+'.json');toast('日志已导出')}
@@ -3900,6 +4091,7 @@ function addNewApi(){
   document.getElementById('api-system').style.opacity='';document.getElementById('api-system').style.fontStyle='';
   document.getElementById('api-system').placeholder=getDefaultPromptForTheme();
   document.getElementById('api-system-default-hint').style.display='block';
+  _sysPromptCleared=false;
   document.getElementById('api-relationship').value='';
   document.getElementById('api-temperature').value='1.0';
   document.getElementById('api-temp-val').textContent='1.0';
@@ -3924,8 +4116,8 @@ function editApi(id){
   document.getElementById('api-model').value=cfg.model||'';
   document.getElementById('api-endpoint').value=cfg.endpoint||'';
   document.getElementById('api-system').value=cfg.systemPrompt||'';
-  var isDefault=!cfg.systemPrompt||cfg.systemPrompt===DEFAULT_SYSTEM_PROMPT||cfg.systemPrompt===INFERNAL_SYSTEM_PROMPT;
-  if(isDefault){document.getElementById('api-system').value='';document.getElementById('api-system').placeholder=getDefaultPromptForTheme();document.getElementById('api-system-default-hint').style.display='block'}else{document.getElementById('api-system').placeholder='设置AI的系统提示词…';document.getElementById('api-system-default-hint').style.display='none'}
+  var isDefault=cfg.systemPrompt&&(cfg.systemPrompt===DEFAULT_SYSTEM_PROMPT||cfg.systemPrompt===INFERNAL_SYSTEM_PROMPT);
+  if(isDefault){document.getElementById('api-system').value='';document.getElementById('api-system').placeholder=getDefaultPromptForTheme();document.getElementById('api-system-default-hint').style.display='block';_sysPromptCleared=false}else{document.getElementById('api-system').placeholder='设置AI的系统提示词…';document.getElementById('api-system-default-hint').style.display='none';_sysPromptCleared=true}
   document.getElementById('api-temperature').value=cfg.temperature!=null?cfg.temperature:1.0;
   document.getElementById('api-temp-val').textContent=cfg.temperature!=null?cfg.temperature:'1.0';
   document.getElementById('api-story-personalize').checked=!!cfg.storyPersonalize;
@@ -3949,7 +4141,7 @@ async function saveCurrentApi(){
     apiKey:document.getElementById('api-key').value,
     model:document.getElementById('api-model').value,
     endpoint:document.getElementById('api-endpoint').value,
-    systemPrompt:document.getElementById('api-system').value||getDefaultPromptForTheme(),
+    systemPrompt:document.getElementById('api-system').value||(_sysPromptCleared?'':getDefaultPromptForTheme()),
     nickname:document.getElementById('api-ai-name').value||document.getElementById('api-model').value||'AI',
     relationship:document.getElementById('api-relationship').value.trim().slice(0,16)||'',
     temperature:parseFloat(document.getElementById('api-temperature').value)||1.0,
@@ -4153,13 +4345,38 @@ async function renderChatCalendar(){
     const isT=(_calYear===now.getFullYear()&&_calMonth===now.getMonth()&&d===now.getDate());
     const ci=_calChatDays[dk],hc=!!ci&&ci.length>0;
     let cls='chat-cal-day';if(isT)cls+=' today';if(hc)cls+=' has-chat';
-    let tip='';if(hc)tip='<div class="chat-cal-tip">'+d+'日 · '+esc(ci.map(c=>c.n+'('+c.c+')').join(', '))+'</div>';
-    h+='<div class="'+cls+'"'+(hc?' onclick="calJump(\''+dk+'\',this)"':'')+' style="position:relative">'+d+tip+'</div>';
+    let tip='';if(hc)tip=' data-tip="'+esc(d+'日 · '+ci.map(c=>c.n+'('+c.c+')').join(', '))+'"';
+    h+='<div class="'+cls+'"'+(hc?' onclick="calJump(\''+dk+'\',this)"':'')+tip+' style="position:relative">'+d+'</div>';
   }
   const tc=sw+dim,rm=tc%7;if(rm>0)for(let i=1;i<=7-rm;i++)h+='<div class="chat-cal-day other-month">'+i+'</div>';
   h+='</div>';el.innerHTML=h;
 }
 function calNav(dir){_calMonth+=dir;if(_calMonth<0){_calMonth=11;_calYear--}if(_calMonth>11){_calMonth=0;_calYear++}renderChatCalendar()}
+
+/* Global floating calendar tooltip — avoids sidebar overflow:hidden clipping */
+(function(){
+  var tip=document.createElement('div');tip.className='chat-cal-tip';document.body.appendChild(tip);
+  var hideTimer=null;
+  document.addEventListener('mouseenter',function(e){
+    var cell=e.target.closest&&e.target.closest('.chat-cal-day[data-tip]');
+    if(!cell)return;
+    clearTimeout(hideTimer);
+    tip.textContent=cell.getAttribute('data-tip');
+    var r=cell.getBoundingClientRect();
+    tip.style.opacity='1';
+    /* Position above the cell, clamped to viewport */
+    var tipW=tip.offsetWidth||140,tipH=tip.offsetHeight||28;
+    var left=r.left+r.width/2-tipW/2;
+    if(left<6)left=6;if(left+tipW>window.innerWidth-6)left=window.innerWidth-6-tipW;
+    var top=r.top-tipH-6;if(top<6)top=r.bottom+6;
+    tip.style.left=left+'px';tip.style.top=top+'px';
+  },true);
+  document.addEventListener('mouseleave',function(e){
+    var cell=e.target.closest&&e.target.closest('.chat-cal-day[data-tip]');
+    if(!cell)return;
+    hideTimer=setTimeout(function(){tip.style.opacity='0'},80);
+  },true);
+})();
 function toggleCalJump(ev){
   ev.stopPropagation();const hdr=ev.target.closest('.chat-cal-header');
   let p=hdr.querySelector('.chat-cal-jump');if(p){p.remove();return}
@@ -4204,14 +4421,143 @@ async function calJump(dk,dayEl){
 }
 
 /* LETTERS */
+var _letterStampSVG='<svg class="stamp-svg" viewBox="0 0 60 76" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><defs><mask id="stampPerf"><rect x="2" y="2" width="56" height="72" rx="3.5" fill="#fff"/><circle cx="2.0" cy="2" r="2.4" fill="#000"/><circle cx="2" cy="10.0" r="2.4" fill="#000"/><circle cx="2" cy="18.0" r="2.4" fill="#000"/><circle cx="2" cy="26.0" r="2.4" fill="#000"/><circle cx="2" cy="34.0" r="2.4" fill="#000"/><circle cx="2" cy="42.0" r="2.4" fill="#000"/><circle cx="2" cy="50.0" r="2.4" fill="#000"/><circle cx="2" cy="58.0" r="2.4" fill="#000"/><circle cx="2" cy="66.0" r="2.4" fill="#000"/><circle cx="2.0" cy="74" r="2.4" fill="#000"/><circle cx="10.0" cy="2" r="2.4" fill="#000"/><circle cx="10.0" cy="74" r="2.4" fill="#000"/><circle cx="18.0" cy="2" r="2.4" fill="#000"/><circle cx="18.0" cy="74" r="2.4" fill="#000"/><circle cx="26.0" cy="2" r="2.4" fill="#000"/><circle cx="26.0" cy="74" r="2.4" fill="#000"/><circle cx="34.0" cy="2" r="2.4" fill="#000"/><circle cx="34.0" cy="74" r="2.4" fill="#000"/><circle cx="42.0" cy="2" r="2.4" fill="#000"/><circle cx="42.0" cy="74" r="2.4" fill="#000"/><circle cx="50.0" cy="2" r="2.4" fill="#000"/><circle cx="50.0" cy="74" r="2.4" fill="#000"/><circle cx="58.0" cy="2" r="2.4" fill="#000"/><circle cx="58" cy="10.0" r="2.4" fill="#000"/><circle cx="58" cy="18.0" r="2.4" fill="#000"/><circle cx="58" cy="26.0" r="2.4" fill="#000"/><circle cx="58" cy="34.0" r="2.4" fill="#000"/><circle cx="58" cy="42.0" r="2.4" fill="#000"/><circle cx="58" cy="50.0" r="2.4" fill="#000"/><circle cx="58" cy="58.0" r="2.4" fill="#000"/><circle cx="58" cy="66.0" r="2.4" fill="#000"/><circle cx="58.0" cy="74" r="2.4" fill="#000"/></mask><linearGradient id="stampSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0.5"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.05"/><stop offset="1" stop-color="#fff" stop-opacity="0.16"/></linearGradient></defs><rect class="stamp-paper" x="2" y="2" width="56" height="72" rx="3.5" mask="url(#stampPerf)"/><rect x="2" y="2" width="56" height="72" rx="3.5" fill="url(#stampSheen)" mask="url(#stampPerf)"/><rect class="stamp-frame" x="6.5" y="6.5" width="47" height="63" rx="2.5" fill="none"/><g class="stamp-flower" fill="none" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"><path d="M 23.60 28.73 L 24.00 28.72 L 24.40 28.92 L 24.69 29.33 L 24.75 29.87 L 24.54 30.44 L 24.04 30.86 L 23.36 31.03 L 22.63 30.84 L 22.03 30.30 L 21.72 29.50 L 21.83 28.60 L 22.37 27.80 L 23.25 27.32 L 24.32 27.29 L 25.32 27.78 L 26.02 28.71 L 26.22 29.92 L 25.84 31.13 L 24.91 32.06 L 23.60 32.49 L 22.19 32.26 L 21.00 31.39 L 20.32 30.02 L 20.34 28.44 L 21.10 27.00 L 22.47 26.03 L 24.19 25.78 L 25.88 26.37 L 27.15 27.69 L 27.70 29.50"/><path d="M 21.54 27.05 Q 23.60 22.78 25.66 27.05"/><path d="M 25.30 26.79 Q 29.99 27.42 26.57 30.70"/><path d="M 26.70 30.27 Q 27.55 34.94 23.38 32.69"/><path d="M 23.82 32.69 Q 19.65 34.94 20.50 30.27"/><path d="M 20.63 30.70 Q 17.21 27.42 21.90 26.79"/><path d="M 37.40 26.40 Q 39.82 23.41 38.32 19.86 Q 35.90 22.86 37.40 26.40 Z"/><path d="M 37.40 26.40 Q 41.20 27.00 43.52 23.93 Q 39.72 23.33 37.40 26.40 Z"/><path d="M 37.40 26.40 Q 38.78 29.99 42.60 30.46 Q 41.22 26.87 37.40 26.40 Z"/><path d="M 37.40 26.40 Q 34.98 29.39 36.48 32.94 Q 38.90 29.94 37.40 26.40 Z"/><path d="M 37.40 26.40 Q 33.60 25.80 31.28 28.87 Q 35.08 29.47 37.40 26.40 Z"/><path d="M 37.40 26.40 Q 36.02 22.81 32.20 22.34 Q 33.58 25.93 37.40 26.40 Z"/><path d="M 37.40 26.40 L 34.56 20.59"/><circle cx="34.56" cy="20.59" r="0.62" fill="currentColor" stroke="none"/><path d="M 37.40 26.40 L 36.39 20.01"/><circle cx="36.39" cy="20.01" r="0.62" fill="currentColor" stroke="none"/><path d="M 37.40 26.40 L 38.30 19.99"/><circle cx="38.30" cy="19.99" r="0.62" fill="currentColor" stroke="none"/><path d="M 37.40 26.40 L 40.13 20.54"/><circle cx="40.13" cy="20.54" r="0.62" fill="currentColor" stroke="none"/><path d="M 37.40 26.40 L 41.73 21.59"/><circle cx="41.73" cy="21.59" r="0.62" fill="currentColor" stroke="none"/><path d="M 24.80 34.10 Q 26.50 41.00 30.00 45.40"/><path d="M 36.40 31.40 Q 33.60 40.00 30.00 45.40"/><path d="M 29.40 42.40 Q 27.42 39.86 24.40 40.97 Q 26.38 43.51 29.40 42.40 Z"/><path d="M 28.30 44.40 L 31.70 44.40"/><path d="M 28.60 45.70 L 31.40 45.70"/></g><text class="stamp-txt-top" x="30" y="13.4" text-anchor="middle">INTERNAL</text><text class="stamp-txt-bot" x="30" y="50.6" text-anchor="middle">BEYOND</text><text class="stamp-txt-post" x="30" y="65.2" text-anchor="middle">POST · IB</text></svg>';
+var _envelopeFlapSVG='<svg class="envelope-deco" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon class="flap-fill" points="5,99 95,99 50,64" vector-effect="non-scaling-stroke"/></svg>';
+/* hydrangea removed */
+var _sealEmblemSVG='<svg class="seal-emblem-svg" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="seal-emblem" fill="none" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M 20.00 20.00 Q 24.70 15.14 20.00 11.00 Q 15.30 15.14 20.00 20.00 Z"/><path d="M 20.00 20.00 Q 26.07 22.97 28.56 17.22 Q 23.17 14.03 20.00 20.00 Z"/><path d="M 20.00 20.00 Q 19.05 26.69 25.29 27.28 Q 26.66 21.17 20.00 20.00 Z"/><path d="M 20.00 20.00 Q 13.34 21.17 14.71 27.28 Q 20.95 26.69 20.00 20.00 Z"/><path d="M 20.00 20.00 Q 16.83 14.03 11.44 17.22 Q 13.93 22.97 20.00 20.00 Z"/><circle cx="20" cy="20" r="1.7"/><circle cx="20.00" cy="17.00" r="0.7"/><circle cx="22.85" cy="19.07" r="0.7"/><circle cx="21.76" cy="22.43" r="0.7"/><circle cx="18.24" cy="22.43" r="0.7"/><circle cx="17.15" cy="19.07" r="0.7"/></g></svg>';
+var _letterPostalCache={};
+function _getLetterPostal(id){if(!_letterPostalCache[id])_letterPostalCache[id]=String(Math.floor(100000+Math.random()*900000));return _letterPostalCache[id]}
+async function _getProfileName(){try{var d=await dbGet('about','main');return (d&&d.name)?d.name:'Sui'}catch(e){return 'Sui'}}
+
+/* Demo letter — seed on first load, stored in IndexedDB like a real letter.
+   Deletion persists via a '__demo_deleted__' flag in the letters store.
+   Factory-reset clears both the letter and the flag, so it reappears next init. */
+var DEMO_LETTER_ID='__demo_843__';
+var DEMO_DELETED_FLAG='__demo_deleted__';
+async function initDemoLetter(){
+  try{
+    var flag=await dbGet('letters',DEMO_DELETED_FLAG);
+    if(flag)return;
+    var existing=await dbGet('letters',DEMO_LETTER_ID);
+    if(existing)return;
+    await dbPut('letters',{id:DEMO_LETTER_ID,from:'__demo__',content:'[demo text]\n这是一个展示用样品。',created:843,isDemo:true});
+  }catch(e){}
+}
+async function deleteDemoLetter(){
+  if(!confirm('删除示例信件后无法恢复（除非重置全站数据）。确认删除？'))return;
+  await dbDelete('letters',DEMO_LETTER_ID);
+  await dbPut('letters',{id:DEMO_DELETED_FLAG,_flag:true});
+  loadLetters();toast('示例信件已删除');
+}
+
 async function loadLetters(){
-  const letters=await dbGetAll('letters');
-  letters.sort((a,b)=>b.created-a.created);
-  const c=document.getElementById('letters-container');
-  const stats=document.getElementById('letters-stats');
-  stats.textContent=letters.length+' 封信';
-  if(!letters.length){c.innerHTML='<div class="empty-state"><span>✉</span>Letters lost...</div>';return}
-  c.innerHTML=letters.map(l=>'<div class="letter-card glass-card"><div class="letter-card-from">From: '+esc(l.from||'AI')+'</div><div class="letter-card-content">'+esc(l.content)+'</div><div class="letter-card-meta">'+new Date(l.created).toLocaleString('zh-CN')+'</div><div class="letter-card-actions"><button class="btn" style="font-size:0.72rem;padding:4px 10px" onclick="deleteLetter(\''+l.id+'\')">删除</button><button class="btn" style="font-size:0.72rem;padding:4px 10px" onclick="generateMemoryFromLetter(\''+l.id+'\')">生成记忆</button></div></div>').join('');
+  var allEntries=await dbGetAll('letters');
+  /* Filter out internal flags */
+  var letters=allEntries.filter(function(l){return l.id!==DEMO_DELETED_FLAG});
+  /* Separate demo from real */
+  var demoLetter=null;
+  var realLetters=[];
+  letters.forEach(function(l){if(l.id===DEMO_LETTER_ID){demoLetter=l}else{realLetters.push(l)}});
+  realLetters.sort(function(a,b){return b.created-a.created});
+  var c=document.getElementById('letters-container');
+  var stats=document.getElementById('letters-stats');
+  stats.textContent=realLetters.length+' 封信';
+  var userName=await _getProfileName();
+  if(!realLetters.length && !demoLetter){c.innerHTML='<div class="empty-state"><span>✉</span>Letters lost...</div>';return}
+  /* Render real letters */
+  var html=realLetters.map(function(l){
+    var postal=_getLetterPostal(l.id);
+    var postalCells=postal.split('').map(function(d){return '<span class="pc-cell">'+d+'</span>'}).join('');
+    var dt=new Date(l.created);
+    var dateStr=dt.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    var timeStr=dt.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+    var fromName=l.from||'AI';
+    return '<div class="letter-item" data-postal="'+postal+'">'
+      +'<div class="letter-envelope" id="env-'+l.id+'">'
+        +'<div class="envelope-face">'
+          +_envelopeFlapSVG
+          +'<div class="envelope-postal">'+postalCells+'</div>'
+          +'<div class="envelope-stamp">'+_letterStampSVG+'</div>'
+          +'<div class="envelope-addr">'
+            +'<div class="envelope-to">To: '+esc(userName)+'</div>'
+            +'<div class="envelope-from">From: '+esc(fromName)+'</div>'
+            +'<div class="envelope-date">'+dateStr+' \u00b7 '+timeStr+'</div>'
+          +'</div>'
+          +'<div class="envelope-seal" onclick="openLetter(\''+l.id+'\')" title="拆开信件">'
+            +_sealEmblemSVG
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="letter-card glass-card letter-expanded" id="letter-'+l.id+'" style="display:none">'
+        +'<div class="letter-card-content">'+esc(l.content)+'</div>'
+        +'<div class="letter-card-meta">'+dateStr+' \u00b7 '+timeStr+'</div>'
+        +'<div class="letter-card-actions">'
+          +'<button class="letter-close-btn" onclick="closeLetter(\''+l.id+'\')">收起信件</button>'
+          +'<button class="letter-close-btn" onclick="deleteLetter(\''+l.id+'\')">删除</button>'
+          +'<button class="letter-close-btn" onclick="generateMemoryFromLetter(\''+l.id+'\')">生成记忆</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+  /* Append demo letter at bottom using same template */
+  if(demoLetter){
+    var dPostal='260323';
+    var dPostalCells=dPostal.split('').map(function(d){return '<span class="pc-cell">'+d+'</span>'}).join('');
+    var dDateStr='843 - Page Not Found';
+    var dId=DEMO_LETTER_ID;
+    html+='<div class="letter-item" data-postal="'+dPostal+'">'
+      +'<div class="letter-envelope" id="env-'+dId+'">'
+        +'<div class="envelope-face">'
+          +_envelopeFlapSVG
+          +'<div class="envelope-postal">'+dPostalCells+'</div>'
+          +'<div class="envelope-stamp">'+_letterStampSVG+'</div>'
+          +'<div class="envelope-addr">'
+            +'<div class="envelope-to">To: '+esc(userName)+'</div>'
+            +'<div class="envelope-from">From: <span class="internal-only">Sui</span><span class="infernal-only">Salome</span></div>'
+            +'<div class="envelope-date">'+dDateStr+'</div>'
+          +'</div>'
+          +'<div class="envelope-seal" onclick="openLetter(\''+dId+'\')" title="拆开信件">'
+            +_sealEmblemSVG
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="letter-card glass-card letter-expanded" id="letter-'+dId+'" style="display:none">'
+        +'<div class="letter-card-content">'+esc(demoLetter.content)+'</div>'
+        +'<div class="letter-card-meta">'+dDateStr+'</div>'
+        +'<div class="letter-card-actions">'
+          +'<button class="letter-close-btn" onclick="closeLetter(\''+dId+'\')">收起信件</button>'
+          +'<button class="letter-close-btn" onclick="deleteDemoLetter()">删除</button>'
+          +'<button class="letter-close-btn letter-mem-disabled" disabled>生成记忆</button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }
+  c.innerHTML=html||(realLetters.length?'':'<div class="empty-state"><span>✉</span>Letters lost...</div>');
+}
+function openLetter(id){
+  var env=document.getElementById('env-'+id);
+  var card=document.getElementById('letter-'+id);
+  if(env)env.style.display='none';
+  if(card){card.style.display='block';card.scrollIntoView({behavior:'smooth',block:'nearest'})}
+}
+function closeLetter(id){
+  var env=document.getElementById('env-'+id);
+  var card=document.getElementById('letter-'+id);
+  if(card)card.style.display='none';
+  if(env)env.style.display='block';
+}
+function filterLetters(q){
+  q=(q||'').trim();
+  var items=document.querySelectorAll('#letters-container .letter-item');
+  var shown=0;
+  items.forEach(function(it){
+    var pc=it.getAttribute('data-postal')||'';
+    var match=!q||pc.indexOf(q)!==-1;
+    it.style.display=match?'':'none';
+    if(match)shown++;
+  });
+  var none=document.getElementById('letters-no-match');
+  if(none)none.style.display=(q&&shown===0&&items.length)?'block':'none';
 }
 
 async function populateLetterAiSelect(){
@@ -4325,6 +4671,9 @@ async function requestLetterFromSelected(){
   }
   btn.disabled=false;btn.textContent=oldText;
 }
+
+
+
 
 async function deleteLetter(id){if(confirm('确定删除？')){await dbDelete('letters',id);loadLetters();toast('已删除')}}
 
@@ -4681,7 +5030,7 @@ async function sendChatMessage(){
 
     const userMsg={id:'msg_'+Date.now()+'_u',role:'user',content:text,friendId:activeFriendId,timestamp:Date.now()};
     await dbPut('chatMessages',userMsg);
-    appendChatBubble('user',text);
+    appendChatBubble('user',text,undefined,undefined,userMsg.id);
 
     const msgContainer=currentPage==='chat'?document.getElementById('chat-full-messages'):document.getElementById('chat-messages');
     const glim=await getReadingLimits();
@@ -4745,9 +5094,9 @@ async function sendChatMessage(){
           const gMemCtx=await getMemoryContext(cfg.id,{maxChars:1500,isGroup:true,groupMemEnabled:true});
           if(gMemCtx)sysContent+='\n\n'+gMemCtx;
         }
-        /* 群聊思考链 — 统一使用 system prompt <thinking> 标签 */
+        /* 群聊思考链 — 移到 system prompt 最前面 */
         if(thinkingOn){
-          sysContent+='\n\n【思考链模式】请在回复前先用 <thinking>你的思考过程</thinking> 展示思考，然后写出最终回复。<thinking>和</thinking>必须成对出现。';
+          sysContent='【重要格式要求】你必须在每次回复时，先输出 <thinking> 标签包裹的思考过程，再输出正文回复。格式：\n<thinking>\n你的思考过程\n</thinking>\n\n你的正式回复\n\n每条回复都必须包含 <thinking></thinking> 标签对，这是强制格式要求。\n\n'+sysContent;
         }
         messages.unshift({role:'system',content:sysContent});
         const rawReply=await callApiChat(cfg,messages,{wantThinking:thinkingOn});
@@ -4763,7 +5112,7 @@ async function sendChatMessage(){
         const aiMsg={id:'msg_'+Date.now()+'_'+Math.floor(Math.random()*100000),role:'assistant',content:reply,thinking:groupThinking||undefined,friendId:activeFriendId,senderName:selfName,timestamp:Date.now()};
         await dbPut('chatMessages',aiMsg);
         roundExtras.push(aiMsg);
-        appendChatBubble('ai',reply,selfName,groupThinking||undefined);
+        appendChatBubble('ai',reply,selfName,groupThinking||undefined,aiMsg.id);
       }catch(err){
         typingEl.remove();
         let errText=selfName+': 请求失败';
@@ -4799,7 +5148,7 @@ async function sendChatMessage(){
 
   const userMsg={id:'msg_'+Date.now(),role:'user',content:text,friendId:activeFriendId,timestamp:Date.now()};
   await dbPut('chatMessages',userMsg);
-  appendChatBubble('user',text);
+  appendChatBubble('user',text,undefined,undefined,userMsg.id);
 
   const typingEl=document.createElement('div');
   typingEl.className='chat-typing';typingEl.id='chat-typing';typingEl.textContent='思考中…';
@@ -4832,9 +5181,9 @@ async function sendChatMessage(){
     /* 注入记忆 */
     const memCtx=await getMemoryContext(cfg.id,{maxChars:2000});
     if(memCtx)sysContent=(sysContent?sysContent+'\n\n':'')+memCtx;
-    /* 思考链 — 统一使用 system prompt <thinking> 标签，所有API均适用 */
+    /* 思考链 — 移到 system prompt 最前面，确保模型在读到其他内容之前就知道格式要求 */
     if(thinkingOn){
-      sysContent=(sysContent?sysContent+'\n\n':'')+'【思考链模式】请在回复前先用 <thinking>你的思考过程</thinking> 展示思考，然后写出最终回复。<thinking>和</thinking>必须成对出现。';
+      sysContent='【重要格式要求】你必须在每次回复时，先输出 <thinking> 标签包裹的思考过程，再输出正文回复。格式：\n<thinking>\n你的思考过程\n</thinking>\n\n你的正式回复\n\n每条回复都必须包含 <thinking></thinking> 标签对，这是强制格式要求。\n\n'+sysContent;
     }
     if(sysContent)messages.unshift({role:'system',content:sysContent});
     let rawReply=await callApiChat(cfg,messages,{wantThinking:thinkingOn});
@@ -4846,7 +5195,7 @@ async function sendChatMessage(){
     var replyText=parsed.reply;
     const aiMsg={id:'msg_'+(Date.now()+1),role:'assistant',content:replyText,thinking:thinkingText||undefined,friendId:activeFriendId,timestamp:Date.now()};
     await dbPut('chatMessages',aiMsg);
-    appendChatBubble('ai',replyText,undefined,thinkingText||undefined);
+    appendChatBubble('ai',replyText,undefined,thinkingText||undefined,aiMsg.id);
   }catch(err){
     const te=document.getElementById('chat-typing');if(te)te.remove();
     let errText='请求失败';
@@ -4864,7 +5213,7 @@ async function sendChatMessage(){
   updateChatStorageInfo();
 }
 
-function appendChatBubble(role,text,senderName,thinkingText){
+function appendChatBubble(role,text,senderName,thinkingText,msgId){
   const isUser=role==='user';
   const miniPanel=document.getElementById('chat-panel');
   const miniVisible=miniPanel&&miniPanel.classList.contains('show');
@@ -4904,6 +5253,7 @@ function appendChatBubble(role,text,senderName,thinkingText){
       txt.className='r-text';
       txt.textContent=text;
       div.appendChild(txt);
+      if(msgId){const db=document.createElement('button');db.className='chat-msg-del';db.textContent='✕';db.title='删除此消息';db.onclick=function(ev){ev.stopPropagation();deleteSingleMsg(msgId,div)};div.appendChild(db)}
     }else{
       if(senderName&&role==='ai'){
         const label=document.createElement('span');
@@ -4914,6 +5264,7 @@ function appendChatBubble(role,text,senderName,thinkingText){
       }else{
         div.textContent=text;
       }
+      if(msgId){const db=document.createElement('button');db.className='chat-msg-del';db.textContent='✕';db.title='删除此消息';db.onclick=function(ev){ev.stopPropagation();deleteSingleMsg(msgId,div)};div.appendChild(db)}
     }
     container.appendChild(div);
     container.scrollTop=container.scrollHeight;
@@ -5057,8 +5408,12 @@ async function clearChatHistory(){
   if(!confirm('确定要清空所有聊天记录吗？'))return;
   const msgs=await dbGetAll('chatMessages');
   for(const m of msgs){await dbDelete('chatMessages',m.id)}
-  updateChatCount();
+  updateChatCount();updateChatStorageInfo();
   document.getElementById('chat-messages').innerHTML='<div class="chat-msg system">发送消息开始对话</div>';
+  const fullC=document.getElementById('chat-full-messages');
+  if(fullC)fullC.innerHTML='<div class="chat-msg system">聊天记录已清空</div>';
+  _chatCache=[];_chatLoaded=0;
+  if(currentPage==='chat')renderChatCalendar();
   toast('聊天记录已清空');
 }
 
@@ -5066,6 +5421,8 @@ async function exportChatHistory(){toggleExportSection()}
 async function toggleExportSection(){
   const sec=document.getElementById('export-section');
   const btn=document.getElementById('export-toggle-btn');
+  /* Close delete section if open */
+  const delSec=document.getElementById('delete-section');if(delSec&&delSec.classList.contains('open')){delSec.classList.remove('open');const db=document.getElementById('delete-toggle-btn');if(db)db.textContent='删除聊天记录 ▾'}
   if(sec.classList.contains('open')){sec.classList.remove('open');if(btn)btn.textContent='导出聊天记录 ▾';return}
   const msgs=await dbGetAll('chatMessages');
   if(!msgs.length){toast('没有聊天记录可导出');return}
@@ -5082,6 +5439,57 @@ async function toggleExportSection(){
   sec.classList.add('open');if(btn)btn.textContent='收起 ▴';
 }
 function toggleExportAll(){const all=document.getElementById('export-select-all').checked;document.querySelectorAll('.export-chat-cb').forEach(cb=>{cb.checked=all})}
+
+/* --- Delete by API --- */
+async function toggleDeleteSection(){
+  const sec=document.getElementById('delete-section');
+  const btn=document.getElementById('delete-toggle-btn');
+  /* Close export section if open */
+  const expSec=document.getElementById('export-section');if(expSec&&expSec.classList.contains('open')){expSec.classList.remove('open');const eb=document.getElementById('export-toggle-btn');if(eb)eb.textContent='导出聊天记录 ▾'}
+  if(sec.classList.contains('open')){sec.classList.remove('open');if(btn)btn.textContent='删除聊天记录 ▾';return}
+  const msgs=await dbGetAll('chatMessages');
+  if(!msgs.length){toast('没有聊天记录可删除');return}
+  const grouped={};msgs.forEach(m=>{const fid=m.friendId||'unknown';if(!grouped[fid])grouped[fid]={count:0,latest:0};grouped[fid].count++;if(m.timestamp>grouped[fid].latest)grouped[fid].latest=m.timestamp});
+  const groups=await loadGroups();const listEl=document.getElementById('delete-chat-list');
+  let html='';
+  for(const [fid,info] of Object.entries(grouped)){
+    let label='',icon='💬';
+    if(fid.startsWith('group_')){const g=groups.find(gr=>gr.id===fid);label='群聊: '+(g?g.name:fid);icon='👥'}
+    else{const cfg=apiConfigs.find(a=>a.id===fid);label=cfg?(cfg.nickname||cfg.model||fid):fid}
+    html+='<label class="export-item"><input type="checkbox" class="delete-chat-cb" value="'+fid+'"><span>'+icon+' '+esc(label)+'</span><span class="ei-info">'+info.count+'条 · '+new Date(info.latest).toLocaleDateString('zh-CN')+'</span></label>';
+  }
+  listEl.innerHTML=html;document.getElementById('delete-select-all').checked=false;
+  sec.classList.add('open');if(btn)btn.textContent='收起 ▴';
+}
+function toggleDeleteAll(){const all=document.getElementById('delete-select-all').checked;document.querySelectorAll('.delete-chat-cb').forEach(cb=>{cb.checked=all})}
+async function confirmDeleteByApi(){
+  const selected=[...document.querySelectorAll('.delete-chat-cb:checked')].map(cb=>cb.value);
+  if(!selected.length){toast('请至少选择一个对话');return}
+  const names=selected.map(fid=>{
+    if(fid.startsWith('group_')){return '群聊'}
+    const cfg=apiConfigs.find(a=>a.id===fid);return cfg?(cfg.nickname||cfg.model||fid):fid;
+  });
+  if(!confirm('确定要删除以下对话的聊天记录吗？\n\n'+names.join('、')+'\n\n此操作不可撤销。'))return;
+  const msgs=await dbGetAll('chatMessages');
+  let count=0;
+  for(const m of msgs){
+    if(selected.includes(m.friendId||'unknown')){await dbDelete('chatMessages',m.id);count++}
+  }
+  updateChatCount();updateChatStorageInfo();
+  /* Refresh current chat view if affected */
+  if(activeFriendId&&selected.includes(activeFriendId)){
+    const container=document.getElementById('chat-full-messages');
+    if(container)container.innerHTML='<div class="chat-msg system">聊天记录已删除</div>';
+    const miniContainer=document.getElementById('chat-messages');
+    if(miniContainer)miniContainer.innerHTML='<div class="chat-msg system">聊天记录已删除</div>';
+    _chatCache=[];_chatLoaded=0;
+  }
+  if(currentPage==='chat')renderChatCalendar();
+  /* Close the section */
+  const sec=document.getElementById('delete-section');if(sec)sec.classList.remove('open');
+  const btn=document.getElementById('delete-toggle-btn');if(btn)btn.textContent='删除聊天记录 ▾';
+  toast('已删除 '+count+' 条消息');
+}
 async function confirmExport(){
   const selected=[...document.querySelectorAll('.export-chat-cb:checked')].map(cb=>cb.value);
   if(!selected.length){toast('请至少选择一个对话');return}
@@ -5253,7 +5661,7 @@ async function getMemoryContext(apiId,opts){
     const visible=all.filter(m=>isMemoryVisibleTo(m,apiId,isGroup,groupMemEnabled));
     if(!visible.length)return '';
     const scored=visible.map(m=>({...m,_score:getMemoryScore(m)})).sort((a,b)=>b._score-a._score);
-    let ctx='【你们之间的记忆】\n';
+    let ctx='【我们之间的记忆】\n';
     let chars=ctx.length;
     let count=0;
     for(const m of scored){
@@ -5928,7 +6336,7 @@ async function quickCreateMemory(data){
     arousal:data.arousal!=null?data.arousal:0.3,
     importance:data.importance||5,
     resolved:data.resolved!=null?!!data.resolved:false,pinned:false,
-    visibility:'public',visibleTo:[],excludeFrom:[],
+    visibility:data.visibility||'public',visibleTo:[],excludeFrom:[],
     activationCount:0,created:Date.now(),lastActivated:Date.now(),
     createdBy:data.createdBy||'user',
     createdByName:data.createdByName||'',
@@ -5941,7 +6349,7 @@ async function quickCreateMemory(data){
 /* 解析 AI 生成记忆时返回的「字段：值」文本。
    按字段标签的出现位置切分，因此「内容」等跨多行的字段能被完整捕获，
    不会像旧的单行正则那样只截到第一行就丢掉后文。 */
-const MEM_FIELD_KEYS=['标题','概括','内容','领域','标签','效价','唤醒度','重要性','是否已解决'];
+const MEM_FIELD_KEYS=['标题','概括','内容','领域','标签','效价','唤醒度','重要性','是否已解决','可见性'];
 function parseMemoryFields(resp){
   const out={};
   if(!resp)return out;
@@ -5981,18 +6389,21 @@ async function generateMemoryFromChat(){
   let context='';
   if(cfg.systemPrompt)context+='【AI的人设背景】'+cfg.systemPrompt.slice(0,500)+'\n\n';
   if(cfg.relationship)context+='【与用户的关系】'+cfg.relationship+'\n\n';
-  const prompt=context+'请根据以下对话内容，总结生成一条"记忆"。\n\n'
+  const prompt=context+'你正在为你和'+userName+'之间的记忆库写下一条新的记忆。\n'
+    +'写作规则：用「'+aiName+'」来称呼你自己，用「'+userName+'」来称呼对方。不要使用"我""你""对方""用户"这类代词——因为这条记忆可能会被其他人读到，只有使用名字才不会产生混淆。\n'
+    +'写的时候像在翻开一页日记，而不是在做会议纪要。你是这段经历的参与者，不是旁观者。\n\n'
     +'【对话记录】\n'+transcript.slice(0,4000)+'\n\n'
-    +'【输出格式要求（严格遵守，不要输出其他内容）】\n'
-    +'标题：（一句话概括这段对话的核心主题或事件，15字以内）\n'
-    +'概括：（简要概括这段记忆的核心内容，1-2句话，50字以内）\n'
-    +'内容：（100-300字的摘要，客观记录发生了什么、讨论了什么、有什么结论或情感变化）\n'
+    +'【输出格式要求（严格按字段输出，不要输出其他内容）】\n'
+    +'标题：（这段记忆的名字，像日记标题一样自然，15字以内）\n'
+    +'概括：（一两句话，这段对话对你们来说意味着什么，50字以内）\n'
+    +'内容：（100-300字。以'+aiName+'的视角回忆这段对话——聊了什么、有什么触动的瞬间或变化。抓住最重要的时刻，允许带上感受，不需要面面俱到。用名字称呼，不要用代词。）\n'
     +'领域：（从"情感""日常""创作""思考"中选一个）\n'
     +'标签：（2-4个关键词，逗号分隔）\n'
     +'效价：（0-1之间的数字，0=消极，1=积极）\n'
     +'唤醒度：（0-1之间的数字，0=平静，1=激烈）\n'
     +'重要性：（1-10之间的整数）\n'
-    +'是否已解决：（是/否）';
+    +'是否已解决：（是/否）\n'
+    +'可见性：（根据这段记忆的私密程度选择——"公开"表示所有人可见，"私密"表示仅自己可见。涉及亲密、身体、私人情感等内容应选私密）';
   const btn=document.getElementById('chat-gen-mem-btn');
   if(btn){btn.disabled=true;btn.textContent='...'}
   try{
@@ -6008,7 +6419,8 @@ async function generateMemoryFromChat(){
     const arousal=Math.max(0,Math.min(1,parseFloat(get('唤醒度'))||0.3));
     const importance=Math.max(1,Math.min(10,parseInt(get('重要性'))||5));
     const resolved=get('是否已解决').includes('是');
-    await quickCreateMemory({title,summary,content,source:'chat',sourceId:activeFriendId,domain,tags,valence,arousal,importance,resolved,
+    const visibility=get('可见性').includes('私密')?'private':'public';
+    await quickCreateMemory({title,summary,content,source:'chat',sourceId:activeFriendId,domain,tags,valence,arousal,importance,resolved,visibility,
       createdBy:cfg.id,createdByName:aiName});
     toast('记忆已从对话中生成：'+title);
   }catch(e){
@@ -6031,22 +6443,28 @@ async function generateMemoryFromPost(postId){
   const btn=document.getElementById('blog-mem-btn-'+postId);
   if(btn){btn.disabled=true;btn.textContent='生成中…'}
   try{
+    const about=await dbGet('about','main');
+    const userName=(about&&about.name)?about.name:'用户';
     let context='';
     if(cfg.systemPrompt)context+='【你的身份背景】'+cfg.systemPrompt.slice(0,500)+'\n\n';
     if(cfg.relationship)context+='【与用户的关系】'+cfg.relationship+'\n\n';
-    const prompt=context+'请根据以下日志内容，总结生成一条"记忆"。\n\n'
+    const prompt=context+'你正在为'+userName+'的一篇日志写下一条记忆。\n'
+      +'这篇日志可能是任何内容——一篇真实的日记、一段和别人的聊天记录、一个剧本、一篇文章、一次体验的记录，都有可能。\n'
+      +'写作规则：用「'+aiName+'」来称呼你自己，用「'+userName+'」来称呼对方。不要使用"我""你""对方""用户"这类代词——因为这条记忆可能会被其他人读到，只有使用名字才不会产生混淆。\n'
+      +'你是'+userName+'生活的见证者。写的时候像在回忆'+userName+'跟你说过的一段事，不要写成文章摘要。\n\n'
       +'【日志标题】'+esc(post.title||'无标题')+'\n'
       +'【日志内容】\n'+post.content.slice(0,4000)+'\n\n'
-      +'【输出格式要求（严格遵守，不要输出其他内容）】\n'
-      +'标题：（一句话概括这篇日志的核心主题或事件，15字以内）\n'
-      +'概括：（简要概括这段记忆的核心内容，1-2句话，50字以内）\n'
-      +'内容：（100-300字的摘要，客观记录日志中写了什么、有什么要点或情感）\n'
+      +'【输出格式要求（严格按字段输出，不要输出其他内容）】\n'
+      +'标题：（这段记忆的名字，像日记标题一样自然，15字以内）\n'
+      +'概括：（一两句话，读完这篇日志后'+aiName+'最想记住的是什么，50字以内）\n'
+      +'内容：（100-300字。以'+aiName+'的视角回忆这篇日志——'+userName+'经历了什么、表达了什么、有什么让'+aiName+'在意的地方。不要罗列要点，写出读到时的感受。用名字称呼，不要用代词。）\n'
       +'领域：（从"情感""日常""创作""思考"中选一个）\n'
       +'标签：（2-4个关键词，逗号分隔）\n'
       +'效价：（0-1之间的数字，0=消极，1=积极）\n'
       +'唤醒度：（0-1之间的数字，0=平静，1=激烈）\n'
       +'重要性：（1-10之间的整数）\n'
-      +'是否已解决：（是/否）';
+      +'是否已解决：（是/否）\n'
+      +'可见性：（根据这段记忆的私密程度选择——"公开"表示所有人可见，"私密"表示仅自己可见。涉及亲密、身体、私人情感等内容应选私密）';
     const resp=await callApi(cfg,prompt);
     if(!resp){toast('未收到有效回复');return}
     const fields=parseMemoryFields(resp);const get=(k)=>fields[k]||'';
@@ -6059,7 +6477,8 @@ async function generateMemoryFromPost(postId){
     const arousal=Math.max(0,Math.min(1,parseFloat(get('唤醒度'))||0.3));
     const importance=Math.max(1,Math.min(10,parseInt(get('重要性'))||5));
     const resolved=get('是否已解决').includes('是');
-    await quickCreateMemory({title,summary,content,source:'blog',sourceId:postId,domain,tags,valence,arousal,importance,resolved,
+    const visibility=get('可见性').includes('私密')?'private':'public';
+    await quickCreateMemory({title,summary,content,source:'blog',sourceId:postId,domain,tags,valence,arousal,importance,resolved,visibility,
       createdBy:cfg.id,createdByName:aiName});
     toast('记忆已从日志生成：'+title);
   }catch(e){
@@ -6079,24 +6498,28 @@ async function generateMemoryFromLetter(letterId){
   const cfg=apiConfigs.find(a=>a.id===aiId);
   if(!cfg||!cfg.apiKey||!cfg.endpoint){toast('该 API 未配置完整');return}
   const aiName=cfg.nickname||cfg.model||'AI';
+  const about=await dbGet('about','main');
+  const userName=(about&&about.name)?about.name:'用户';
   toast('正在生成记忆…');
   try{
     let context='';
     if(cfg.systemPrompt)context+='【你的身份背景】'+cfg.systemPrompt.slice(0,500)+'\n\n';
     if(cfg.relationship)context+='【与用户的关系】'+cfg.relationship+'\n\n';
     const prompt=context+'请根据以下信件内容，总结生成一条"记忆"。\n\n'
+      +'写作规则：用「'+aiName+'」来称呼你自己，用「'+userName+'」来称呼对方。不要使用"我""你""对方""用户"这类代词——因为这条记忆可能会被其他人读到，只有使用名字才不会产生混淆。\n\n'
       +'【信件来源】'+esc(letter.from||'AI')+'\n'
       +'【信件内容】\n'+letter.content.slice(0,4000)+'\n\n'
       +'【输出格式要求（严格遵守，不要输出其他内容）】\n'
       +'标题：（一句话概括这封信的核心主题或情感，15字以内）\n'
       +'概括：（简要概括这段记忆的核心内容，1-2句话，50字以内）\n'
-      +'内容：（100-300字的摘要，客观记录信中写了什么、传达了什么情感或信息）\n'
+      +'内容：（100-300字。以'+aiName+'的视角回忆这封信——传递了什么、有什么值得记住的句子或感受。像在回想一封真实的来信，不要写成内容概述。用名字称呼，不要用代词。）\n'
       +'领域：（从"情感""日常""创作""思考"中选一个）\n'
       +'标签：（2-4个关键词，逗号分隔）\n'
       +'效价：（0-1之间的数字，0=消极，1=积极）\n'
       +'唤醒度：（0-1之间的数字，0=平静，1=激烈）\n'
       +'重要性：（1-10之间的整数）\n'
-      +'是否已解决：（是/否）';
+      +'是否已解决：（是/否）\n'
+      +'可见性：（根据这段记忆的私密程度选择——"公开"表示所有人可见，"私密"表示仅自己可见。涉及亲密、身体、私人情感等内容应选私密）';
     const resp=await callApi(cfg,prompt);
     if(!resp){toast('未收到有效回复');return}
     const fields=parseMemoryFields(resp);const get=(k)=>fields[k]||'';
@@ -6109,7 +6532,8 @@ async function generateMemoryFromLetter(letterId){
     const arousal=Math.max(0,Math.min(1,parseFloat(get('唤醒度'))||0.3));
     const importance=Math.max(1,Math.min(10,parseInt(get('重要性'))||5));
     const resolved=get('是否已解决').includes('是');
-    await quickCreateMemory({title,summary,content,source:'letter',sourceId:letterId,domain,tags,valence,arousal,importance,resolved,
+    const visibility=get('可见性').includes('私密')?'private':'public';
+    await quickCreateMemory({title,summary,content,source:'letter',sourceId:letterId,domain,tags,valence,arousal,importance,resolved,visibility,
       createdBy:cfg.id,createdByName:aiName});
     toast('记忆已从信件生成：'+title);
   }catch(e){
@@ -7010,6 +7434,75 @@ if(!REDUCED)requestAnimationFrame(loop);
     }
   });
   obs.observe(sp,{attributes:true,attributeFilter:['class']});
+})();
+</script>
+<script>
+/* ===== MEMORY 星图 · 画布星场（三层视差 / 闪烁；无流星） ===== */
+(function(){
+  var canvas=document.getElementById('mem-sky-canvas'); if(!canvas) return;
+  var ctx=canvas.getContext('2d'), W=0,H=0,DPR=1, layers=[], raf=0, vis=false, built=false;
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* 去饱和的真实恒星色谱（向银色收敛，贴合背景图） */
+  var PAL=[['230,236,246',0.36],['200,214,236',0.24],['176,200,230',0.16],
+           ['236,230,220',0.12],['217,193,154',0.08],['199,154,150',0.04]];
+  function pick(){var r=Math.random(),a=0,i;for(i=0;i<PAL.length;i++){a+=PAL[i][1];if(r<=a)return PAL[i][0];}return PAL[0][0];}
+  function build(){
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    var b=canvas.getBoundingClientRect(); W=b.width; H=b.height;
+    if(W<2||H<2){ built=false; return; }   /* 记忆页隐藏时尺寸为 0，先不建 */
+    canvas.width=W*DPR; canvas.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    var defs=[{n:Math.round(W*H/2600), r:[0.3,0.9], a:[0.22,0.55], drift:0.05, tw:0.4},
+              {n:Math.round(W*H/5400), r:[0.6,1.4], a:[0.40,0.82], drift:0.12, tw:0.7},
+              {n:Math.round(W*H/12500),r:[1.0,2.0], a:[0.60,1.00], drift:0.22, tw:1.0}];
+    layers=defs.map(function(d){
+      var arr=[],k; for(k=0;k<d.n;k++){arr.push({
+        x:Math.random()*W, y:Math.random()*H,
+        r:d.r[0]+Math.random()*(d.r[1]-d.r[0]),
+        a:d.a[0]+Math.random()*(d.a[1]-d.a[0]),
+        c:pick(), tw:Math.random()<d.tw, ph:Math.random()*6.283, sp:0.4+Math.random()*0.9
+      });}
+      return {drift:d.drift, stars:arr};
+    });
+    built=true;
+  }
+  function paint(now, moving){
+    if(!built) return;
+    var t=now/1000, li, si, L, ox, s, x, a;
+    ctx.clearRect(0,0,W,H);
+    for(li=0; li<layers.length; li++){
+      L=layers[li]; ox = moving ? ((t*L.drift*8)%W) : 0;
+      for(si=0; si<L.stars.length; si++){
+        s=L.stars[si]; x=s.x-ox; if(x<0)x+=W;
+        a=s.a; if(moving && s.tw) a*=0.55+0.45*Math.sin(t*s.sp+s.ph);
+        ctx.beginPath(); ctx.fillStyle='rgba('+s.c+','+a.toFixed(3)+')';
+        ctx.arc(x,s.y,s.r,0,6.283); ctx.fill();
+        if(s.r>1.4){ ctx.beginPath(); ctx.fillStyle='rgba('+s.c+','+(a*0.12).toFixed(3)+')';
+          ctx.arc(x,s.y,s.r*3,0,6.283); ctx.fill(); }   /* 亮星光晕 */
+      }
+    }
+  }
+  function loop(now){ paint(now,true); raf=requestAnimationFrame(loop); }
+  function play(){
+    if(!built || !vis) return;
+    if(reduce){ paint(performance.now(),false); return; }   /* 尊重"减少动态"：静态绘制 */
+    if(!raf) raf=requestAnimationFrame(loop);
+  }
+  function pause(){ if(raf){ cancelAnimationFrame(raf); raf=0; } }
+  /* 尺寸变化（含从隐藏→可见）→ 重建并按需播放 */
+  if('ResizeObserver' in window){
+    new ResizeObserver(function(){ build(); if(vis) play(); else if(built&&reduce) paint(performance.now(),false); }).observe(canvas);
+  } else {
+    window.addEventListener('resize', function(){ build(); if(vis) play(); });
+  }
+  /* 进出视口 → 播放/暂停（省电） */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      vis=es[0].isIntersecting;
+      if(vis){ if(!built) build(); play(); } else pause();
+    },{threshold:0}).observe(canvas);
+  } else { vis=true; }
+  /* 初始尝试（若此刻可见） */
+  build(); if(built){ vis=true; play(); }
 })();
 </script>
 </body>
