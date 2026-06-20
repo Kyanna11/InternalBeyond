@@ -306,6 +306,25 @@ body.theme-infernal .glass-card:hover{border-color:rgba(155,185,232,0.35);box-sh
 .friend-item{padding:8px 10px;border-radius:10px;cursor:pointer;font-size:0.78rem;color:var(--text-secondary);transition:all 0.2s;display:flex;align-items:center;gap:8px;margin-bottom:4px}
 .friend-item:hover,.friend-item.active{background:rgba(80,128,176,0.12);color:var(--white)}
 .friend-item .friend-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+/* Thread items under friends */
+.friend-thread-list{padding-left:20px;overflow:hidden;max-height:0;transition:max-height 0.3s ease}
+.friend-thread-list.open{max-height:600px}
+.thread-item{padding:6px 10px;border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--text-muted);transition:all 0.2s;display:flex;align-items:center;gap:7px;margin-bottom:2px}
+.thread-item:hover,.thread-item.active{background:rgba(80,128,176,0.10);color:var(--text-primary)}
+.thread-item .thread-dot{width:5px;height:5px;border-radius:50%;background:var(--text-muted);flex-shrink:0;transition:background 0.2s}
+.thread-item.active .thread-dot{background:var(--accent-light)}
+.thread-item .del-btn{margin-left:auto;font-size:0.75rem;cursor:pointer;opacity:0;transition:opacity 0.2s;padding:0 2px}
+.thread-item:hover .del-btn{opacity:0.5}
+.thread-item .del-btn:hover{opacity:1;color:#e88}
+.friend-actions{display:flex;align-items:center;margin-left:auto;gap:2px}
+.friend-add-thread{font-size:0.92rem;cursor:pointer;opacity:0.4;transition:opacity 0.2s;padding:0 5px;line-height:1}
+.friend-add-thread:hover{opacity:0.9}
+.friend-thread-badge{font-size:0.62rem;color:var(--text-muted);opacity:0.6;min-width:14px;text-align:center}
+body:not(.theme-infernal) .thread-item{color:#3a5a8c}
+body:not(.theme-infernal) .thread-item:hover,body:not(.theme-infernal) .thread-item.active{color:#0a1e42}
+body:not(.theme-infernal) .thread-item.active .thread-dot{background:#3a7ac0}
+body.theme-infernal .thread-item.active .thread-dot{background:rgba(240,248,255,0.9)}
+body.theme-infernal{--thread-dot-active:rgba(240,248,255,0.9)}
 .chat-main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 
 /* Letters page — Envelope UI */
@@ -2113,7 +2132,7 @@ body:not(.theme-infernal) .group-member-tag{background:rgba(100,160,220,0.15);co
         <div class="module-intro-top"><h2>Chat</h2>
         <span class="module-intro-sub">Real-time AI dialogue</span></div>
         <div class="module-intro-rule"></div>
-        <div class="module-intro-desc">支持多个 API 端口的实时对话站。可在浮动面板与全屏模式之间自由切换。<br>好友列表由 API 配置自动生成，可创建群聊与历史消息全文检索、生成记忆到你的记忆库。</div>
+        <div class="module-intro-desc">支持多个 API 端口的实时对话站。可在浮动面板与全屏模式之间自由切换。<br>好友列表由 API 配置自动生成，可创建群聊、话题频道、历史消息全文检索、生成记忆到你的记忆库。</div>
       </div>
       <div class="chat-full-header">
         <div class="chat-full-search">
@@ -2922,6 +2941,7 @@ i would like the room to be enough.
           <p><strong>生成记忆</strong>：点击顶部工具栏的 <strong>Memory</strong> 按钮，AI 会读取你的人设背景和近期对话，总结生成一条记忆到 Memory。群聊中可通过左侧下拉菜单选择由哪位成员来写记忆。</p>
           <p><strong>思考链</strong>：每个 API 在创建时可勾选「启用思考链」（默认开启，创建后不可更改）。开启后 AI 会在每次回复前展示内部思考过程，思考内容以可折叠的灰色文字显示在消息气泡上方。创建群聊时亦可选择是否启用。</p>
           <p><strong>好友与群组</strong>：好友列表由 API 配置页面中添加的 AI 自动生成——每个 API 配置即为一位好友。群组功能支持将多个 AI 好友组合在一起进行多人对话。</p>
+          <p><strong>话题频道</strong>：每个好友可创建多个独立话题频道（点击好友右侧 <strong>+</strong> 号），用于按话题分类对话。频道内聊天记录完全隔离，不会被 Letters、Blog 评论等模块读取。创建时可选择是否启用记忆。好友名称右侧的数字徽章显示频道数量，点击好友名展开/收起频道列表。</p>
           <p><strong>删除消息</strong>：将鼠标悬停在任意一条聊天气泡上，右上角（用户消息为左上角）会出现小 ✕ 按钮，点击即可删除该条消息。</p>
           <p><strong>导出</strong>：在 API 设置页导出聊天记录时，消息会自动按好友和群聊分组，不会混在一起。</p>
         </div>
@@ -3318,6 +3338,22 @@ i would like the room to be enough.
   </div>
 </div>
 
+<div class="group-dialog-overlay" id="thread-dialog-overlay">
+  <div class="group-dialog">
+    <h3>新建话题频道</h3>
+    <label>频道名称</label>
+    <input type="text" id="thread-name-input" placeholder="给这个话题起个名字…" maxlength="16">
+    <label style="display:flex;align-items:center;gap:8px;margin-bottom:14px;cursor:pointer">
+      <input type="checkbox" id="thread-memory-toggle"> <span style="font-size:0.8rem">启用记忆（可读取该好友可见的记忆）</span>
+    </label>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6">话题频道的聊天记录不会被 Letters、Blog 评论等模块读取。</div>
+    <div class="group-dialog-actions">
+      <button class="btn" onclick="closeThreadDialog()">取消</button>
+      <button class="btn btn-primary" onclick="confirmCreateThread()">创建</button>
+    </div>
+  </div>
+</div>
+
 <div id="chat-mini" onclick="openChatPanel()">
   <span class="mini-icon" style="opacity:0.7">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -3344,8 +3380,8 @@ i would like the room to be enough.
 </div>
 
 <script>
-const DB_NAME='InternalBeyondDB',DB_VER=8;let db;
-function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VER);req.onupgradeneeded=e=>{const d=e.target.result;['posts','categories','about','music','apiSettings','chatMessages','letters','apiConfigs','groups','blogComments','memories'].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:s==='categories'?'name':'id'})});/* v7: add friendId index on chatMessages for fast queries */try{const store=e.target.transaction.objectStore('chatMessages');if(!store.indexNames.contains('byFriend'))store.createIndex('byFriend','friendId',{unique:false})}catch(ex){}};req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>reject(req.error)})}
+const DB_NAME='InternalBeyondDB',DB_VER=9;let db;
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VER);req.onupgradeneeded=e=>{const d=e.target.result;['posts','categories','about','music','apiSettings','chatMessages','letters','apiConfigs','groups','blogComments','memories','chatThreads'].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:s==='categories'?'name':'id'})});/* v7: add friendId index on chatMessages for fast queries */try{const store=e.target.transaction.objectStore('chatMessages');if(!store.indexNames.contains('byFriend'))store.createIndex('byFriend','friendId',{unique:false})}catch(ex){}};req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>reject(req.error)})}
 function dbPut(s,d){return new Promise((r,j)=>{const t=db.transaction(s,'readwrite');t.objectStore(s).put(d);t.oncomplete=()=>r();t.onerror=()=>j(t.error)})}
 function dbGetAll(s){return new Promise((r,j)=>{const t=db.transaction(s,'readonly');const q=t.objectStore(s).getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)})}
 function dbGet(s,k){return new Promise((r,j)=>{const t=db.transaction(s,'readonly');const q=t.objectStore(s).get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)})}
@@ -4050,9 +4086,9 @@ function initAudioContext(){if(audioCtx)return;audioCtx=new(window.AudioContext|
 function drawVisualizer(){const canvas=document.getElementById('visualizer-canvas'),ctx=canvas.getContext('2d'),dpr=window.devicePixelRatio||1;canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;ctx.scale(dpr,dpr);const W=canvas.offsetWidth,H=canvas.offsetHeight;(function draw(){requestAnimationFrame(draw);if(!analyser)return;const data=new Uint8Array(analyser.frequencyBinCount);analyser.getByteFrequencyData(data);ctx.clearRect(0,0,W,H);const bars=48,bw=W/bars;for(let i=0;i<bars;i++){const v=data[Math.floor(i*data.length/bars)]/255,bh=v*H*0.85;const g=ctx.createLinearGradient(0,H,0,H-bh);g.addColorStop(0,'rgba(80,128,176,0.2)');g.addColorStop(1,'rgba(114,168,216,0.6)');ctx.fillStyle=g;ctx.fillRect(i*bw+1,H-bh,bw-2,bh)}})()}
 
 /* EXPORT/IMPORT */
-async function exportAll(){const data={posts:await dbGetAll('posts'),categories:await dbGetAll('categories'),about:await dbGetAll('about'),apiSettings:await dbGetAll('apiSettings'),apiConfigs:await dbGetAll('apiConfigs'),chatMessages:await dbGetAll('chatMessages'),letters:await dbGetAll('letters'),groups:await loadGroups(),blogComments:await dbGetAll('blogComments'),memories:await dbGetAll('memories'),exportDate:new Date().toISOString(),version:2};downloadJSON(data,'InternalBeyond_backup_'+new Date().toISOString().slice(0,10)+'.json');toast('数据已导出')}
+async function exportAll(){const data={posts:await dbGetAll('posts'),categories:await dbGetAll('categories'),about:await dbGetAll('about'),apiSettings:await dbGetAll('apiSettings'),apiConfigs:await dbGetAll('apiConfigs'),chatMessages:await dbGetAll('chatMessages'),letters:await dbGetAll('letters'),groups:await loadGroups(),blogComments:await dbGetAll('blogComments'),memories:await dbGetAll('memories'),chatThreads:await (async()=>{try{return await dbGetAll('chatThreads')}catch(e){return[]}})(),exportDate:new Date().toISOString(),version:2};downloadJSON(data,'InternalBeyond_backup_'+new Date().toISOString().slice(0,10)+'.json');toast('数据已导出')}
 function downloadJSON(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(a.href),100)}
-async function importAll(e){const file=e.target.files[0];if(!file)return;try{const text=await file.text();const data=JSON.parse(text);if(data.posts)for(const p of data.posts)await dbPut('posts',p);if(data.categories)for(const c of data.categories)await dbPut('categories',c);if(data.about)for(const a of data.about)await dbPut('about',a);if(data.apiSettings)for(const s of data.apiSettings)await dbPut('apiSettings',s);if(data.apiConfigs)for(const s of data.apiConfigs)await dbPut('apiConfigs',s);if(data.chatMessages)for(const m of data.chatMessages)await dbPut('chatMessages',m);if(data.letters)for(const l of data.letters)await dbPut('letters',l);if(data.groups)for(const g of data.groups)await dbPut('groups',g);if(data.blogComments)for(const c of data.blogComments)await dbPut('blogComments',c);if(data.memories)for(const m of data.memories)await dbPut('memories',m);await migrateLockedPosts();toast('数据已导入');navTo(currentPage)}catch(err){toast('导入失败：文件格式错误')}e.target.value=''}
+async function importAll(e){const file=e.target.files[0];if(!file)return;try{const text=await file.text();const data=JSON.parse(text);if(data.posts)for(const p of data.posts)await dbPut('posts',p);if(data.categories)for(const c of data.categories)await dbPut('categories',c);if(data.about)for(const a of data.about)await dbPut('about',a);if(data.apiSettings)for(const s of data.apiSettings)await dbPut('apiSettings',s);if(data.apiConfigs)for(const s of data.apiConfigs)await dbPut('apiConfigs',s);if(data.chatMessages)for(const m of data.chatMessages)await dbPut('chatMessages',m);if(data.letters)for(const l of data.letters)await dbPut('letters',l);if(data.groups)for(const g of data.groups)await dbPut('groups',g);if(data.blogComments)for(const c of data.blogComments)await dbPut('blogComments',c);if(data.memories)for(const m of data.memories)await dbPut('memories',m);if(data.chatThreads)for(const t of data.chatThreads)await dbPut('chatThreads',t);await migrateLockedPosts();toast('数据已导入');navTo(currentPage)}catch(err){toast('导入失败：文件格式错误')}e.target.value=''}
 function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
 
@@ -4090,6 +4126,7 @@ function onProviderChange(){
 let apiConfigs=[];
 let editingApiId=null;
 let activeFriendId=null;
+let activeThreadId=null;/* null=主对话, 有值=话题频道 */
 
 async function loadApiConfigs(){
   apiConfigs=await dbGetAll('apiConfigs');
@@ -4193,11 +4230,13 @@ async function saveCurrentApi(){
 function cancelApiEdit(){document.getElementById('api-editor').style.display='none'}
 
 async function deleteApiConfig(id){
-  if(!confirm('确定删除？聊天记录也会被清除。'))return false;
+  if(!confirm('确定删除？聊天记录和话题频道也会被清除。'))return false;
   await dbDelete('apiConfigs',id);
   /* Clear related messages */
   const msgs=await dbGetByIndex('chatMessages','byFriend',id);
   for(const m of msgs){await dbDelete('chatMessages',m.id)}
+  /* Clear related threads */
+  try{const threads=await dbGetAll('chatThreads');for(const t of threads){if(t.friendId===id)await dbDelete('chatThreads',t.id)}}catch(e){}
   renderApiList();
   toast('已删除');
   return true;
@@ -4221,7 +4260,31 @@ async function loadFriendsList(){
   await loadApiConfigs();
   const c=document.getElementById('friends-list');
   if(!apiConfigs.length){c.innerHTML='<div style="font-size:0.72rem;color:var(--text-muted);padding:8px">去 API 页面添加API</div>';return}
-  c.innerHTML=apiConfigs.map(a=>'<div class="friend-item'+(activeFriendId===a.id?' active':'')+'" onclick="selectFriend(\''+a.id+'\')"><span class="friend-dot"></span><span>'+esc(a.nickname||a.model)+'</span></div>').join('');
+  const allThreads=await (async()=>{try{return await dbGetAll('chatThreads')}catch(e){return[]}})();
+  let html='';
+  for(const a of apiConfigs){
+    const threads=allThreads.filter(t=>t.friendId===a.id).sort((x,y)=>x.created-y.created);
+    const isActive=activeFriendId===a.id&&!activeThreadId;
+    const isExpanded=activeFriendId===a.id;
+    const badge=threads.length?'<span class="friend-thread-badge">('+threads.length+')</span>':'';
+    html+='<div class="friend-item'+(isActive?' active':'')+'" onclick="selectFriend(\''+a.id+'\')">'
+      +'<span class="friend-dot"></span><span>'+esc(a.nickname||a.model)+'</span>'
+      +'<span class="friend-actions">'+badge
+      +'<span class="friend-add-thread" onclick="event.stopPropagation();createThread(\''+a.id+'\')" title="新建话题频道">+</span>'
+      +'</span></div>';
+    if(threads.length){
+      html+='<div class="friend-thread-list'+(isExpanded?' open':'')+'">';
+      threads.forEach(t=>{
+        const tActive=activeThreadId===t.id;
+        html+='<div class="thread-item'+(tActive?' active':'')+'" onclick="selectThread(\''+a.id+'\',\''+t.id+'\')">'
+          +'<span class="thread-dot"></span><span>'+esc(t.name)+'</span>'
+          +'<span class="del-btn" onclick="event.stopPropagation();deleteThread(\''+t.id+'\')" title="删除">✕</span>'
+          +'</div>';
+      });
+      html+='</div>';
+    }
+  }
+  c.innerHTML=html;
   /* Load and render groups */
   const groups=await loadGroups();
   const gc=document.getElementById('groups-list');
@@ -4238,6 +4301,7 @@ async function loadFriendsList(){
 
 async function selectFriend(id){
   activeFriendId=id;
+  activeThreadId=null;/* 回到主对话 */
   loadFriendsList();
   renderChatCalendar();
   /* Show memory generation button for 1v1 */
@@ -4245,8 +4309,8 @@ async function selectFriend(id){
   if(memBtn)memBtn.style.display='';
   const memSel=document.getElementById('chat-mem-member-select');
   if(memSel)memSel.style.display='none';
-  /* Load chat for this friend */
-  const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',id)).sort((a,b)=>(a.timestamp||a.created)-(b.timestamp||b.created));
+  /* Load chat for this friend — exclude thread messages */
+  const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',id)).filter(m=>!m.threadId).sort((a,b)=>(a.timestamp||a.created)-(b.timestamp||b.created));
   const container=document.getElementById('chat-full-messages');
   if(!friendMsgs.length){
     const cfg=apiConfigs.find(a=>a.id===id);
@@ -4295,6 +4359,7 @@ async function loadGroups(){
 
 async function selectGroup(gid){
   activeFriendId=gid;
+  activeThreadId=null;
   loadFriendsList();
   renderChatCalendar();
   /* Show memory generation button in group chat with member selector */
@@ -4337,12 +4402,79 @@ async function deleteGroup(gid){
   toast('群聊已删除');
 }
 
+/* ===== CHAT THREADS (话题频道) ===== */
+async function loadThreads(friendId){
+  try{const all=await dbGetAll('chatThreads');return all.filter(t=>t.friendId===friendId).sort((a,b)=>a.created-b.created)}catch(e){return[]}
+}
+var _threadCreatingFor=null;
+function createThread(friendId){
+  _threadCreatingFor=friendId;
+  document.getElementById('thread-name-input').value='';
+  document.getElementById('thread-memory-toggle').checked=false;
+  document.getElementById('thread-dialog-overlay').classList.add('show');
+}
+function closeThreadDialog(){document.getElementById('thread-dialog-overlay').classList.remove('show');_threadCreatingFor=null}
+async function confirmCreateThread(){
+  const name=document.getElementById('thread-name-input').value.trim();
+  if(!name){toast('请输入频道名称');return}
+  if(!_threadCreatingFor)return;
+  const thread={id:'thread_'+Date.now(),friendId:_threadCreatingFor,name:name,
+    memoryEnabled:!!document.getElementById('thread-memory-toggle').checked,created:Date.now()};
+  await dbPut('chatThreads',thread);
+  closeThreadDialog();
+  loadFriendsList();
+  toast('话题频道「'+name+'」已创建');
+}
+async function deleteThread(tid){
+  if(!confirm('确定删除该话题频道及其消息？'))return;
+  await dbDelete('chatThreads',tid);
+  const msgs=await dbGetAll('chatMessages');
+  for(const m of msgs){if(m.threadId===tid)await dbDelete('chatMessages',m.id)}
+  if(activeThreadId===tid){activeThreadId=null;if(activeFriendId)selectFriend(activeFriendId)}
+  loadFriendsList();toast('话题频道已删除');
+}
+async function selectThread(friendId,threadId){
+  activeFriendId=friendId;
+  activeThreadId=threadId;
+  loadFriendsList();
+  renderChatCalendar();
+  const memBtn=document.getElementById('chat-gen-mem-btn');
+  if(memBtn)memBtn.style.display='';
+  const memSel=document.getElementById('chat-mem-member-select');
+  if(memSel)memSel.style.display='none';
+  const allMsgs=(await dbGetByIndex('chatMessages','byFriend',friendId)).filter(m=>m.threadId===threadId);
+  allMsgs.sort((a,b)=>(a.timestamp||a.created)-(b.timestamp||b.created));
+  const container=document.getElementById('chat-full-messages');
+  const threads=await loadThreads(friendId);
+  const thread=threads.find(t=>t.id===threadId);
+  const threadName=thread?thread.name:'话题';
+  const cfg=apiConfigs.find(a=>a.id===friendId);
+  if(!allMsgs.length){
+    container.innerHTML='<div class="chat-msg system">'+esc(threadName)+'</div>';
+    _chatCache=[];_chatLoaded=0;
+  }else{
+    _chatCache=allMsgs;
+    _chatLoaded=CHAT_BATCH_FULL;
+    _chatBatchSize=CHAT_BATCH_FULL;
+    _renderBatch(container,allMsgs,CHAT_BATCH_FULL,true);
+  }
+  if(cfg){
+    document.getElementById('chat-header-name').textContent=(cfg.nickname||cfg.model)+' · '+threadName;
+    document.getElementById('chat-mini-title').textContent=(cfg.nickname||cfg.model)+' · '+threadName;
+  }
+}
+
 function searchChat(q){
-  if(!q){if(activeFriendId)selectFriend(activeFriendId);return}
+  if(!q){
+    if(activeThreadId&&activeFriendId)selectThread(activeFriendId,activeThreadId);
+    else if(activeFriendId)selectFriend(activeFriendId);
+    return;
+  }
   if(!activeFriendId){toast('请先选择一个聊天对象');return}
-  /* Search only within the current conversation */
   dbGetByIndex('chatMessages','byFriend',activeFriendId).then(msgs=>{
-    const results=msgs.filter(m=>m.content&&m.content.toLowerCase().includes(q.toLowerCase())).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
+    /* Filter by current thread */
+    const filtered=activeThreadId?msgs.filter(m=>m.threadId===activeThreadId):msgs.filter(m=>!m.threadId);
+    const results=filtered.filter(m=>m.content&&m.content.toLowerCase().includes(q.toLowerCase())).sort((a,b)=>(a.timestamp||0)-(b.timestamp||0));
     const container=document.getElementById('chat-full-messages');
     if(!results.length){container.innerHTML='<div class="chat-msg system">未找到相关消息</div>';return}
     container.innerHTML=results.slice(0,50).map(m=>{
@@ -4648,8 +4780,8 @@ async function requestLetterFromSelected(){
     const recentPosts=posts.filter(p=>!isLockedPost(p)).sort((a,b)=>b.created-a.created).slice(0,lim.postsLimit);
     const recentLetters=letters.sort((a,b)=>b.created-a.created).slice(0,2);
 
-    /* Gather recent chat history with this AI */
-    const chatWithAi=(await dbGetByIndex('chatMessages','byFriend',cfg.id)).sort((a,b)=>(a.timestamp||a.created)-(b.timestamp||b.created)).slice(-(lim.chatLimit||DEFAULT_READ_CHAT));
+    /* Gather recent chat history with this AI — exclude thread messages */
+    const chatWithAi=(await dbGetByIndex('chatMessages','byFriend',cfg.id)).filter(m=>!m.threadId).sort((a,b)=>(a.timestamp||a.created)-(b.timestamp||b.created)).slice(-(lim.chatLimit||DEFAULT_READ_CHAT));
 
     let context='';
     if(cfg.relationship)context+='你和对方的关系是：'+cfg.relationship+'。\n';
@@ -5217,6 +5349,7 @@ async function sendChatMessage(){
   input.value='';
 
   const userMsg={id:'msg_'+Date.now(),role:'user',content:text,friendId:activeFriendId,timestamp:Date.now()};
+  if(activeThreadId)userMsg.threadId=activeThreadId;
   await dbPut('chatMessages',userMsg);
   appendChatBubble('user',text,undefined,undefined,userMsg.id);
 
@@ -5228,7 +5361,7 @@ async function sendChatMessage(){
 
   try{
     const lim=await getReadingLimits();
-    const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',activeFriendId)).sort((a,b)=>a.timestamp-b.timestamp);
+    const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',activeFriendId)).filter(m=>activeThreadId?m.threadId===activeThreadId:!m.threadId).sort((a,b)=>a.timestamp-b.timestamp);
     const history=friendMsgs.slice(-(lim.chatLimit||DEFAULT_READ_CHAT));
     /* Build messages for API — auto-inject website context.
        开启思考链时，把 assistant 历史消息重建出 <thinking> 标签，让模型看到自己之前的思路、延续格式。
@@ -5252,9 +5385,11 @@ async function sendChatMessage(){
     if(cfg.relationship)sysContent=(sysContent?sysContent+'\n':'')+'你和对方的关系是：'+cfg.relationship+'。';
     const siteCtx=await buildSiteContext();
     if(siteCtx){sysContent=(sysContent?sysContent+'\n\n':'')+siteCtx}
-    /* 注入记忆 */
-    const memCtx=await getMemoryContext(cfg.id,{maxChars:2000});
-    if(memCtx)sysContent=(sysContent?sysContent+'\n\n':'')+memCtx;
+    /* 注入记忆 — 话题频道需检查 memoryEnabled */
+    let _threadMemOk=true;
+    if(activeThreadId){const _thr=await (async()=>{try{return await dbGet('chatThreads',activeThreadId)}catch(e){return null}})();_threadMemOk=_thr&&_thr.memoryEnabled}
+    if(_threadMemOk){const memCtx=await getMemoryContext(cfg.id,{maxChars:2000});
+    if(memCtx)sysContent=(sysContent?sysContent+'\n\n':'')+memCtx;}
     /* 思考链 — 移到 system prompt 最前面，确保模型在读到其他内容之前就知道格式要求 */
     if(thinkingOn){
       sysContent='【重要格式要求】你必须在每次回复时，先输出 <thinking> 标签包裹的思考过程，再输出正文回复。格式：\n<thinking>\n你的思考过程\n</thinking>\n\n你的正式回复\n\n每条回复都必须包含 <thinking></thinking> 标签对，这是强制格式要求。\n\n'+sysContent;
@@ -5268,6 +5403,7 @@ async function sendChatMessage(){
     if(!thinkingText&&parsed.thinking) thinkingText=parsed.thinking;
     var replyText=parsed.reply;
     const aiMsg={id:'msg_'+(Date.now()+1),role:'assistant',content:replyText,thinking:thinkingText||undefined,friendId:activeFriendId,timestamp:Date.now()};
+    if(activeThreadId)aiMsg.threadId=activeThreadId;
     await dbPut('chatMessages',aiMsg);
     appendChatBubble('ai',replyText,undefined,thinkingText||undefined,aiMsg.id);
   }catch(err){
@@ -5505,6 +5641,9 @@ async function clearChatHistory(){
   if(!confirm('确定要清空所有聊天记录吗？'))return;
   const msgs=await dbGetAll('chatMessages');
   for(const m of msgs){await dbDelete('chatMessages',m.id)}
+  /* Also clear all threads */
+  try{const threads=await dbGetAll('chatThreads');for(const t of threads)await dbDelete('chatThreads',t.id)}catch(e){}
+  activeThreadId=null;
   updateChatCount();updateChatStorageInfo();
   document.getElementById('chat-messages').innerHTML='<div class="chat-msg system">发送消息开始对话</div>';
   const fullC=document.getElementById('chat-full-messages');
@@ -5572,6 +5711,8 @@ async function confirmDeleteByApi(){
   for(const m of msgs){
     if(selected.includes(m.friendId||'unknown')){await dbDelete('chatMessages',m.id);count++}
   }
+  /* Also delete threads for selected friends */
+  try{const threads=await dbGetAll('chatThreads');for(const t of threads){if(selected.includes(t.friendId))await dbDelete('chatThreads',t.id)}}catch(e){}
   updateChatCount();updateChatStorageInfo();
   /* Refresh current chat view if affected */
   if(activeFriendId&&selected.includes(activeFriendId)){
@@ -5591,10 +5732,13 @@ async function confirmExport(){
   const selected=[...document.querySelectorAll('.export-chat-cb:checked')].map(cb=>cb.value);
   if(!selected.length){toast('请至少选择一个对话');return}
   const msgs=await dbGetAll('chatMessages');msgs.sort((a,b)=>a.timestamp-b.timestamp);
-  const grouped={};msgs.forEach(m=>{const fid=m.friendId||'unknown';if(!selected.includes(fid))return;if(!grouped[fid])grouped[fid]=[];grouped[fid].push(m)});
+  const allThreads=await (async()=>{try{return await dbGetAll('chatThreads')}catch(e){return[]}})();
+  const grouped={};msgs.forEach(m=>{const fid=m.friendId||'unknown';if(!selected.includes(fid))return;const key=fid+(m.threadId?'::'+m.threadId:'');if(!grouped[key])grouped[key]={fid:fid,threadId:m.threadId||null,msgs:[]};grouped[key].msgs.push(m)});
   let text='';const groups=await loadGroups();
-  for(const [fid,fMsgs] of Object.entries(grouped)){
+  for(const [key,data] of Object.entries(grouped)){
+    const fid=data.fid;const fMsgs=data.msgs;
     let sn='';if(fid.startsWith('group_')){const g=groups.find(gr=>gr.id===fid);sn='群聊: '+(g?g.name:fid)}else{const cfg=apiConfigs.find(a=>a.id===fid);sn=cfg?(cfg.nickname||cfg.model||fid):fid}
+    if(data.threadId){const thr=allThreads.find(t=>t.id===data.threadId);sn+=' · '+(thr?thr.name:'话题')}
     text+='══════════════════════════════\n  '+sn+' ('+fMsgs.length+'条)\n══════════════════════════════\n\n';
     fMsgs.forEach(m=>{text+='['+new Date(m.timestamp).toLocaleString('zh-CN')+'] '+(m.role==='user'?(_cachedUserName||'You'):(m.senderName||sn))+':\n'+m.content+'\n\n'});text+='\n';
   }
@@ -5684,9 +5828,9 @@ async function clearAllApiKeys(){
 async function resetAllData(){
   if(!confirm('⚠ 这将删除所有数据：日志、聊天记录、信件、API配置、个人资料…\n\n确定要重置吗？'))return;
   if(!confirm('最后确认：此操作不可逆，所有数据将永久丢失。'))return;
-  const stores=['posts','categories','about','music','apiSettings','chatMessages','letters','apiConfigs','groups','blogComments','memories'];
+  const stores=['posts','categories','about','music','apiSettings','chatMessages','letters','apiConfigs','groups','blogComments','memories','chatThreads'];
   for(const s of stores){try{const all=await dbGetAll(s);for(const item of all)await dbDelete(s,item.id||item.name)}catch(e){}}
-  apiConfigs=[];activeFriendId=null;lockedDiaryUnlocked=false;diaryMode=false;activeCat='all';
+  apiConfigs=[];activeFriendId=null;activeThreadId=null;lockedDiaryUnlocked=false;diaryMode=false;activeCat='all';
   toast('所有数据已重置');navTo('home');
 }
 
@@ -6490,7 +6634,7 @@ async function generateMemoryFromChat(){
   if(!cfg||!cfg.apiKey||!cfg.endpoint){toast('请先配置 API');return}
   const lim=await getReadingLimits();
   const chatLimitVal=isGroup?(lim.groupChatLimit||DEFAULT_READ_GROUP_CHAT):(lim.chatLimit||DEFAULT_READ_CHAT);
-  const msgs=(await dbGetByIndex('chatMessages','byFriend',activeFriendId)).sort((a,b)=>a.timestamp-b.timestamp);
+  const msgs=(await dbGetByIndex('chatMessages','byFriend',activeFriendId)).filter(m=>activeThreadId?m.threadId===activeThreadId:!m.threadId).sort((a,b)=>a.timestamp-b.timestamp);
   const recent=msgs.slice(-chatLimitVal);
   if(recent.length<2){toast('聊天记录太少，无法生成记忆');return}
   const about=await dbGet('about','main');
@@ -6666,7 +6810,19 @@ async function renderChatPanelFriends(){
   const c=document.getElementById('chat-panel-friends');
   if(!c)return;
   if(!apiConfigs.length){c.innerHTML='<div class="cpf-item" style="opacity:0.5;cursor:default;font-size:0.65rem">去API页面添加</div>';return}
-  let html=apiConfigs.map(a=>'<div class="cpf-item'+(activeFriendId===a.id?' active':'')+'" onclick="selectPanelFriend(\''+a.id+'\')">'+esc(a.nickname||a.model||'AI')+'</div>').join('');
+  const allThreads=await (async()=>{try{return await dbGetAll('chatThreads')}catch(e){return[]}})();
+  let html='';
+  apiConfigs.forEach(a=>{
+    const isMainActive=activeFriendId===a.id&&!activeThreadId;
+    html+='<div class="cpf-item'+(isMainActive?' active':'')+'" onclick="selectPanelFriend(\''+a.id+'\')">'+esc(a.nickname||a.model||'AI')+'</div>';
+    const threads=allThreads.filter(t=>t.friendId===a.id);
+    if(threads.length&&activeFriendId===a.id){
+      threads.forEach(t=>{
+        const tActive=activeThreadId===t.id;
+        html+='<div class="cpf-item'+(tActive?' active':'')+'" onclick="selectPanelThread(\''+a.id+'\',\''+t.id+'\')" style="padding:3px 10px"><span style="margin-right:5px;font-size:0.55rem;vertical-align:1px;color:'+(tActive?'var(--thread-dot-active,#72a8d8)':'var(--text-muted)')+'">'+(tActive?'●':'○')+'</span>'+esc(t.name)+'</div>';
+      });
+    }
+  });
   const groups=await loadGroups();
   if(groups.length){
     html+=groups.map(g=>'<div class="cpf-item'+(activeFriendId===g.id?' active':'')+'" onclick="selectPanelGroup(\''+g.id+'\')" style="border-color:rgba(114,168,216,0.4)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;opacity:0.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'+esc(g.name)+'</div>').join('');
@@ -6675,6 +6831,7 @@ async function renderChatPanelFriends(){
 }
 async function selectPanelGroup(gid){
   activeFriendId=gid;
+  activeThreadId=null;
   renderChatPanelFriends();
   const groups=await loadGroups();
   const group=groups.find(g=>g.id===gid);
@@ -6696,17 +6853,34 @@ async function selectPanelGroup(gid){
 }
 async function selectPanelFriend(id){
   activeFriendId=id;
+  activeThreadId=null;
   renderChatPanelFriends();
   const cfg=apiConfigs.find(a=>a.id===id);
   if(cfg){
     document.getElementById('chat-header-name').textContent=cfg.nickname||cfg.model;
     document.getElementById('chat-mini-title').textContent=cfg.nickname||cfg.model;
   }
-  /* Load messages for this friend in the mini panel */
+  /* Load messages for this friend in the mini panel — exclude threads */
   const container=document.getElementById('chat-messages');
-  const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',id)).sort((a,b)=>a.timestamp-b.timestamp);
+  const friendMsgs=(await dbGetByIndex('chatMessages','byFriend',id)).filter(m=>!m.threadId).sort((a,b)=>a.timestamp-b.timestamp);
   if(!friendMsgs.length){container.innerHTML='<div class="chat-msg system">发送消息开始对话</div>'}
   else{container.innerHTML=friendMsgs.map(m=>'<div class="chat-msg '+(m.role==='user'?'user':'ai')+'">'+esc(m.content)+'</div>').join('')}
+  container.scrollTop=container.scrollHeight;
+}
+async function selectPanelThread(friendId,threadId){
+  activeFriendId=friendId;
+  activeThreadId=threadId;
+  renderChatPanelFriends();
+  const cfg=apiConfigs.find(a=>a.id===friendId);
+  const allThreads=await (async()=>{try{return await dbGetAll('chatThreads')}catch(e){return[]}})();
+  const thread=allThreads.find(t=>t.id===threadId);
+  const label=(cfg?(cfg.nickname||cfg.model):'AI')+' · '+(thread?thread.name:'话题');
+  document.getElementById('chat-header-name').textContent=label;
+  document.getElementById('chat-mini-title').textContent=label;
+  const container=document.getElementById('chat-messages');
+  const msgs=(await dbGetByIndex('chatMessages','byFriend',friendId)).filter(m=>m.threadId===threadId).sort((a,b)=>a.timestamp-b.timestamp);
+  if(!msgs.length){container.innerHTML='<div class="chat-msg system">'+(thread?esc(thread.name):'话题')+'</div>'}
+  else{container.innerHTML=msgs.map(m=>'<div class="chat-msg '+(m.role==='user'?'user':'ai')+'">'+esc(m.content)+'</div>').join('')}
   container.scrollTop=container.scrollHeight;
 }
 
