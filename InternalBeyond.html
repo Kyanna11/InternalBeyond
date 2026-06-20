@@ -979,10 +979,10 @@ body:not(.theme-infernal) .mem-quote-banner .qm{color:#2a5a8c}
 @keyframes memQPlay{0%{opacity:0;filter:blur(5px);transform:translateY(8px)}100%{opacity:1;filter:blur(0);transform:none}}
 
 /* --- Memories Section Title --- */
-.mem-section-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.4rem;color:var(--pale);margin-bottom:16px;display:flex;align-items:flex-end;justify-content:space-between;letter-spacing:0.06em;line-height:1}
+.mem-section-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.4rem;color:var(--pale);margin-bottom:16px;display:flex;align-items:flex-end;justify-content:space-between;letter-spacing:0.06em;line-height:1;text-shadow:0 1px 8px rgba(0,0,0,0.3)}
 .mem-section-title small{display:block;font-family:'Raleway',sans-serif;font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(175,198,230,0.9);margin-top:8px}
 body:not(.theme-infernal) .mem-section-title small{color:rgba(50,95,155,0.88)}
-body:not(.theme-infernal) .mem-section-title{color:#0f2045}
+body:not(.theme-infernal) .mem-section-title{color:#0f2045;text-shadow:0 0 12px rgba(255,255,255,0.5)}
 
 /* --- Timeline (observatory node style) --- */
 .mem-timeline{width:34px;flex-shrink:0;position:relative;display:flex;flex-direction:column;align-items:center;padding:16px 0 40px 0;margin-left:0}
@@ -1345,6 +1345,14 @@ body.theme-infernal .mi-sub-inf{display:inline}
 .module-intro-desc{font-family:'Noto Sans SC',sans-serif;font-weight:300;font-size:0.85rem;color:rgba(190,202,222,0.88);line-height:1.9;text-shadow:0 1px 6px rgba(0,0,0,0.25)}
 
 /* GLASS CARD */
+
+/* Room title fallback — for browsers without cqi support (overridden by game_module.js when cqi works) */
+.game-cine{padding:0 8px 8px}
+.game-cine-top{gap:12px}
+.game-cine-top h2{font-size:1.4rem}
+.game-cine-sub{font-size:0.72rem;padding-left:13px}
+.game-cine-rule{margin-top:9px}
+.game-cine-desc{font-size:0.76rem;margin-top:8px}
 .glass-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;backdrop-filter:blur(16px) saturate(1.2);-webkit-backdrop-filter:blur(16px) saturate(1.2);box-shadow:0 8px 32px var(--glass-shadow);transition:border-color 0.3s var(--transition),box-shadow 0.3s var(--transition),background 0.3s var(--transition)}
 .glass-card:hover{border-color:rgba(175,195,228,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.22)}
 
@@ -1494,7 +1502,8 @@ body.theme-infernal .profile-card{background:rgba(18,28,52,0.30);
   box-shadow:0 16px 40px rgba(0,0,0,0.40),0 4px 12px rgba(0,0,0,0.24),inset 0 1px 0 rgba(255,255,255,0.09)}
 /* Avatar column */
 .pc-avatar-col{width:20%;min-width:200px;flex-shrink:0;container-type:inline-size;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;border-right:1px solid rgba(180,210,245,0.08);border-radius:20px 0 0 20px}
+  position:relative;overflow:hidden;border-right:1px solid rgba(180,210,245,0.08);border-radius:20px 0 0 20px;
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .pc-avatar-bg{position:absolute;inset:0;z-index:0;border-radius:inherit}
 /* No bg image: frozen glass */
 .pc-avatar-bg.frozen{backdrop-filter:blur(20px) saturate(0.5) brightness(1.05);-webkit-backdrop-filter:blur(20px) saturate(0.5) brightness(1.05);
@@ -1508,11 +1517,11 @@ body.theme-infernal .pc-avatar-bg.frozen{backdrop-filter:blur(20px) saturate(0.4
   background:rgba(200,225,252,0.08)}
 body.theme-infernal .pc-avatar-bg.has-img::after{backdrop-filter:blur(24px) saturate(0.5) brightness(0.55);-webkit-backdrop-filter:blur(24px) saturate(0.5) brightness(0.55);
   background:rgba(15,25,50,0.12)}
-.pc-avatar-img{width:110px;height:110px;width:55cqw;height:55cqw;max-width:180px;max-height:180px;border-radius:50%;border:2px solid rgba(200,225,250,0.18);object-fit:cover;position:relative;z-index:2;
+.pc-avatar-img{width:140px;height:140px;width:55cqw;height:55cqw;max-width:180px;max-height:180px;border-radius:50%;border:2px solid rgba(200,225,250,0.18);object-fit:cover;position:relative;z-index:2;
   box-shadow:0 0 28px rgba(100,165,230,0.15)}
-.pc-avatar-placeholder{width:110px;height:110px;width:55cqw;height:55cqw;max-width:180px;max-height:180px;border-radius:50%;border:2px solid rgba(200,225,250,0.12);
+.pc-avatar-placeholder{width:140px;height:140px;width:55cqw;height:55cqw;max-width:180px;max-height:180px;border-radius:50%;border:2px solid rgba(200,225,250,0.12);
   background:rgba(120,165,220,0.08);display:flex;align-items:center;justify-content:center;
-  font-size:32px;font-size:16cqw;color:rgba(220,238,255,0.5);font-weight:500;position:relative;z-index:2}
+  font-size:40px;font-size:16cqw;color:rgba(220,238,255,0.5);font-weight:500;position:relative;z-index:2}
 body:not(.theme-infernal) .pc-avatar-img{border-color:rgba(140,190,240,0.3);box-shadow:0 0 24px rgba(80,145,220,0.1)}
 body:not(.theme-infernal) .pc-avatar-placeholder{border-color:rgba(90,150,215,0.45);background:rgba(180,215,250,0.2);color:rgba(30,65,125,0.92)}
 .pc-avatar-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--white);
