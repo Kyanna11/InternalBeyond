@@ -1,0 +1,15 @@
+{
+  "name": "InternalBeyond",
+  "short_name": "IB",
+  "start_url": "/InternalBeyond.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#2a2a3c",
+  "icons": [
+    {
+      "src": "bg-canvas.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
